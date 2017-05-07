@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 /**
  * @author Lomako
  * @version 1.0
@@ -29,7 +31,7 @@ public final class Message implements Serializable {
     private static final long serialVersionUID = -2670224366962524946L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private long id;
 
     @ManyToOne

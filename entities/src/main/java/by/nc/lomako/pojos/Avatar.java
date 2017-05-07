@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 /**
  * @author Lomako
  * @version 1.0
@@ -27,7 +29,7 @@ public final class Avatar implements Serializable {
     private static final long serialVersionUID = -1780394933498189617L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private long id;
 
     @Column(nullable = false)

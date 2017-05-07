@@ -6,13 +6,14 @@ package by.nc.lomako.pojos;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * @author Lomako
@@ -40,7 +41,7 @@ public final class User implements Serializable {
     private static final long serialVersionUID = -6528822142825371828L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private long id;
 
     @Column(
@@ -64,7 +65,13 @@ public final class User implements Serializable {
     @Column(nullable = false)
     private Timestamp updatedDate;
 
-    @ManyToMany(targetEntity = AccessLevel.class, mappedBy = "users")
+    @ManyToMany(cascade = ALL)
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+
+    )
     private Set<AccessLevel> accessLevels;
 
     @ManyToMany
@@ -82,7 +89,6 @@ public final class User implements Serializable {
     private Set<Message> recvMessages;
 
     @OneToMany(mappedBy = "user")
-    @Cascade(CascadeType.LOCK)
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user")

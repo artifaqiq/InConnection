@@ -42,6 +42,7 @@ public class UserDaoIT {
 
     @Test
     public void save() {
+
         userDao.save(testUser);
     }
 

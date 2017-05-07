@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * @author Lomako
@@ -25,7 +26,7 @@ public final class AccessLevel implements Serializable {
     private static final long serialVersionUID = -6055459587145221633L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private long id;
 
     @Column(
@@ -36,6 +37,12 @@ public final class AccessLevel implements Serializable {
     @Enumerated(STRING)
     private AccessLevelType accessLevelType;
 
-    @ManyToMany(targetEntity = User.class)
+    @ManyToMany
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}
+
+    )
     private Set<User> users;
 }
