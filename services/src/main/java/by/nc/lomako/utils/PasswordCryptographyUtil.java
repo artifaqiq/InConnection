@@ -12,26 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class PasswordCryptographyUtil {
     private static final String SALT = "*Yh0*YhUT^&YGjj";
 
-    public static String encryptPassword(String email, String password) {
-
-        StringBuilder toEncrypt = new StringBuilder()
-                .append(email)
-                .append(password)
-                .append(SALT);
-
+    public static String encryptPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    public static boolean checkPassword(String email, String password, String encryptedPassword) {
-        StringBuilder toEncrypt = new StringBuilder()
-                .append(email)
-                .append(password)
-                .append(SALT);
-
-        System.out.println(password);
-        System.out.println(new BCryptPasswordEncoder().encode(password));
-        System.out.println(encryptedPassword);
-
+    public static boolean checkPassword(String password, String encryptedPassword) {
         return new BCryptPasswordEncoder().matches(password, encryptedPassword);
 
     }

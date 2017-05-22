@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.dto;
+package by.nc.lomako.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserForLoginDto {
+public final class UserForRegisterDto {
     private String email;
-
     private String password;
+    private String firstName;
+    private String lastName;
 }
