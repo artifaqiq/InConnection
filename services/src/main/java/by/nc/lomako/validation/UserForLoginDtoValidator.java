@@ -3,7 +3,7 @@
  */
 package by.nc.lomako.validation;
 
-import by.nc.lomako.dto.UserForLoginDto;
+import by.nc.lomako.dto.user.UserForLoginDto;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

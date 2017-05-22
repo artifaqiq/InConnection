@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>Users</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Created date</th>
+        <th>Roles</th>
+    </tr>
+    <tr th:each="userDto : ${userDtos}">
+        <td> <a th:text="${userDto.id}" th:href="@{/admin/user/{id}(id=${userDto.id}) }"/></td>
+        <td th:text="${userDto.email}"></td>
+        <td th:text="${userDto.firstName}"></td>
+        <td th:text="${userDto.lastName}"></td>
+        <td th:text="${userDto.createdDate}"></td>
+        <td>
+            <a th:each="role: ${userDto.roles}">
+                <a th:text="${role.accessLevelType}"></a>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,17 @@
+ <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title th:text="${userDto.email}"></title>
+</head>
+<body>
+
+<form th:action="@{/admin/user/update/{id}(id=${userDto.id}) }" method="post">
+    <div><label> Email : <input type="text" name="email" th:attr="value = ${userDto.email}"/> </label></div>
+    <div><label> First name: <input type="text" name="firstName" th:attr="value = ${userDto.firstName}"/> </label></div>
+    <div><label> Last name: <input type="text" name="lastName" th:attr="value = ${userDto.lastName}"/> </label></div>
+    <div><input type="submit" value="Update"/></div>
+</form>
+
+</body>
+</html>

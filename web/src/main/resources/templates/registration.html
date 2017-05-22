@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>Spring Security Example </title>
+</head>
+
+<div th:if="${param.error}">
+    Incorrect format.
+</div>
+
+<body>
+
+<form th:action="@{/register}" method="post">
+    <div><label> Email : <input type="text" name="email"/> </label></div>
+    <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><label> Password confirm: <input type="password" name="passwordConfirmation"/> </label></div>
+    <div><label> First name: <input type="text" name="firstName"/> </label></div>
+    <div><label> Last name: <input type="text" name="lastName"/> </label></div>
+    <div><input type="submit" value="Register"/></div>
+</form>
+</body>
+</html>

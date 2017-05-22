@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title th:text="${userDto.firstName + ' ' + userDto.lastName}"></title>
+</head>
+<body>
+    <p th:text="${userDto.id}"></p>
+    <p th:text="${userDto.email}"></p>
+    <p th:text="${userDto.firstName}"></p>
+    <p th:text="${userDto.lastName}"></p>
+    <p th:text="${userDto.createdDate}"></p>
+</body>
+</html>

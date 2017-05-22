@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface PostDao extends CrudDao<Post, Long> {
     List<Post> findLastByUser(long userId, int start, int limit);
+    long countByUser(long userId);
 }

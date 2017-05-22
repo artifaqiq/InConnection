@@ -42,4 +42,19 @@ public class PostDaoImpl extends AbstractCrudDao<Post, Long> implements PostDao 
                 .getResultList();
 
     }
+
+    @Override
+    public long countByUser(long userId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery q = cb.createQuery();
+
+        Root<Post> root = q.from(Post.class);
+        q
+                .select(cb.count(root))
+                .where(cb.equal(root.get("user").get("id"), cb.parameter(Long.class, "userId")));
+
+        return (Long) em.createQuery(q)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
 }
