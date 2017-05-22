@@ -22,7 +22,7 @@ public interface PostService {
     void update(long id, PostForUpdateDto post) throws PostNotFoundException, UserNotFoundException;
     long create(PostForCreateDto postDto, long userId) throws UserNotFoundException;
     void delete(long id) throws PostNotFoundException;
-    List<PostInfoDto> findByUser(long userId, int start, int limit);
-    long countByUser(long userId);
+    List<PostInfoDto> findLastByUser(long userId, int start, int limit) throws UserNotFoundException;
+    long countByUser(long userId) throws UserNotFoundException;
     List<PostInfoDto> findAll();
 }

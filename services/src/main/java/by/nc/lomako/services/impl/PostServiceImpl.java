@@ -65,8 +65,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostInfoDto> findByUser(long userId, int start, int limit) {
+    public List<PostInfoDto> findLastByUser(long userId, int start, int limit) throws UserNotFoundException {
         List<PostInfoDto> posts = new LinkedList<>();
+
+        if(userDao.findOne(userId) == null) {
+            throw new UserNotFoundException();
+        }
 
         for (Post post : postDao.findLastByUser(userId, start, limit)) {
             posts.add(new PostInfoDto(post.getId(), post.getBody(), post.getUser().getId()));
@@ -92,14 +96,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void update(long id, PostForUpdateDto postDto) throws PostNotFoundException, UserNotFoundException {
+        if(userDao.findOne(postDto.getUserId()) == null) {
+            throw new UserNotFoundException();
+        }
+
         Post post = postDao.findOne(id);
+        if (post == null) {
+            throw new PostNotFoundException();
+        }
 
         post.setUser(userDao.findOne(postDto.getUserId()));
         post.setBody(postDto.getBody());
     }
 
     @Override
-    public long countByUser(long userId) {
+    public long countByUser(long userId) throws UserNotFoundException {
+        if(userDao.findOne(userId) == null) {
+            throw new UserNotFoundException();
+        }
+
         return postDao.countByUser(userId);
     }
 

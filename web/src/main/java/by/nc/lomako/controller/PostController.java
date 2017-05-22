@@ -88,6 +88,6 @@ public class PostController {
         int limit = Integer.valueOf(limitString);
 
         return new ResponseEntity<>(
-                postService.findByUser(userId, start, limit), HttpStatus.OK);
+                postService.findLastByUser(userId, start, limit), HttpStatus.OK);
     }
 }

@@ -35,7 +35,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:dao-context.test.xml")
 @Transactional
-@Rollback(false)
 public class MessageServiceIT {
 
     private static final String FIRST_MESSAGE_BODY = "T_FIRST_MESSAGE_BODY";
