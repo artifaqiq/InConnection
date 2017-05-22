@@ -10,9 +10,11 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
@@ -21,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Data
 @EqualsAndHashCode(exclude = {
-        "accessLevels",
+        "roles",
         "friends",
         "sentMessages",
         "recvMessages",
@@ -29,7 +31,7 @@ import static javax.persistence.GenerationType.IDENTITY;
         "avatars"
 })
 @ToString(exclude = {
-        "accessLevels",
+        "roles",
         "friends",
         "sentMessages",
         "recvMessages",
@@ -37,48 +39,65 @@ import static javax.persistence.GenerationType.IDENTITY;
         "avatars"
 })
 @Entity
+@Table(name = "T_USERS")
 public final class User implements Serializable {
     private static final long serialVersionUID = -6528822142825371828L;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID")
     private long id;
 
     @Column(
             unique = true,
-            nullable = false
+            nullable = false,
+            name = "EMAIL"
     )
     private String email;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "FIRST_NAME"
+    )
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "LAST_NAME"
+    )
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "B_CRYPT_PASSWORD"
+    )
     private String encryptedPassword;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "CREATED_AT"
+    )
     private Timestamp createdDate;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "UPDATED_AT"
+    )
     private Timestamp updatedDate;
 
-    @ManyToMany(cascade = ALL)
+    @ManyToMany(fetch = EAGER)
     @JoinTable(
-            name = "USER_ROLE",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
-
+            name = "T_M2M_USER_ROLE",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")}
     )
-    private Set<AccessLevel> accessLevels;
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
-            name = "USER_FRIEND",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id", referencedColumnName = "id")
+            name = "T_M2M_USER_FRIEND",
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "FRIEND_USER_ID", referencedColumnName = "ID")
     )
     private Set<User> friends;
 
@@ -88,7 +107,7 @@ public final class User implements Serializable {
     @OneToMany(mappedBy = "userTo")
     private Set<Message> recvMessages;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = REMOVE)
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user")

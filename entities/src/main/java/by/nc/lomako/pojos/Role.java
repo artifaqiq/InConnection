@@ -22,26 +22,32 @@ import static javax.persistence.GenerationType.IDENTITY;
 @EqualsAndHashCode(exclude = "users")
 @ToString(exclude = "users")
 @Entity
-public final class AccessLevel implements Serializable {
+@Table(
+        name = "T_ROLES",
+        indexes = {@Index(columnList = "ROLES")}
+)
+public final class Role implements Serializable {
     private static final long serialVersionUID = -6055459587145221633L;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID")
     private long id;
 
     @Column(
+            name = "ROLES",
             columnDefinition = "enum('ADMIN', 'MODERATOR', 'USER')",
             unique = true,
             nullable = false
     )
     @Enumerated(STRING)
-    private AccessLevelType accessLevelType;
+    private RoleType roleType;
 
     @ManyToMany
     @JoinTable(
-            name = "USER_ROLE",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}
+            name = "T_M2M_USER_ROLE",
+            joinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")}
 
     )
     private Set<User> users;

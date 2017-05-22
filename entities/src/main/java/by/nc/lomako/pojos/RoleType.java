@@ -9,6 +9,6 @@ import java.io.Serializable;
  * @author Lomako
  * @version 1.0
  */
-public enum AccessLevelType implements Serializable {
+public enum RoleType implements Serializable {
     USER, MODERATOR, ADMIN;
 }

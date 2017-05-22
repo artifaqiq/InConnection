@@ -4,6 +4,7 @@
 package by.nc.lomako.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Lomako
@@ -15,13 +16,15 @@ public interface CrudDao<T extends Serializable, ID extends Serializable> {
 
     T findOne(ID primaryKey);
 
-    Iterable<T> findAll();
+    List<T> findAll();
 
     Long count();
 
     void delete(T entity);
 
-    boolean exists(ID primaryKey);
+    void deleteById(ID id);
 
-    Iterable<T> findPage(int start, int limit);
+    boolean exist(ID primaryKey);
+
+    List<T> findPage(int start, int limit);
 }

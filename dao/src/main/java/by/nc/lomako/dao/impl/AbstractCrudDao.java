@@ -8,6 +8,7 @@ import by.nc.lomako.dao.CrudDao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Lomako
@@ -37,7 +38,7 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
     }
 
     @Override
-    public Iterable<T> findAll() {
+    public List<T> findAll() {
         return em.createQuery("from " + entityType.getName()).getResultList();
     }
 
@@ -54,7 +55,7 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
     }
 
     @Override
-    public boolean exists(ID primaryKey) {
+    public boolean exist(ID primaryKey) {
         return em
                 .createQuery("select 1 from " + entityType.getName() + " t where t.id = :id")
                 .setParameter("id", primaryKey)
@@ -62,7 +63,7 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
     }
 
     @Override
-    public Iterable<T> findPage(int start, int limit) {
+    public List<T> findPage(int start, int limit) {
         return em
                 .createQuery("from " + entityType.getName())
                 .setFirstResult(start)
@@ -70,4 +71,10 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
                 .getResultList();
     }
 
+    @Override
+    public void deleteById(ID id) {
+        em.createQuery("delete from " + entityType.getName() + " t where t.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

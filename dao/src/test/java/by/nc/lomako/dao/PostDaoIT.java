@@ -3,8 +3,11 @@
  */
 package by.nc.lomako.dao;
 
+import by.nc.lomako.dao.builders.PostBuilder;
+import by.nc.lomako.dao.builders.UserBuilder;
 import by.nc.lomako.pojos.Post;
 import by.nc.lomako.pojos.User;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
-import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Lomako
@@ -30,42 +34,73 @@ public class PostDaoIT {
     @Autowired
     private PostDao postDao;
 
-    @Test
-    public void save() {
+    private static final String FIRST_POST_BODY = "T_POST_1_BODY";
+    private static final String SECOND_POST_BODY = "T_POST_2_BODY";
 
-        User user = userDao.findPage(0, 1).iterator().next();
+    @After
+    public void tearDown() throws Exception {
+        List<Post> posts = postDao.findAll();
+        List<User> users = userDao.findAll();
 
-        Post post = new Post();
-        post.setBody("My post");
-        post.setUser(user);
+        for (Post post : posts) {
+            postDao.delete(post);
+        }
 
-        postDao.save(post);
-
+        for (User user : users) {
+            userDao.delete(user);
+        }
     }
 
     @Test
-    public void findById() {
-        assertNull(postDao.findOne(12314142L));
+    public void findLastByUser() throws Exception {
+        User user = buildUser();
+        user = userDao.save(user);
+
+        Post post1 = buildFirstPost(user);
+        Post post2 = buildSecondPost(user);
+
+        post1 = postDao.save(post1);
+
+        Thread.sleep(1001);
+
+        post2 = postDao.save(post2);
+
+        List<Post> posts = postDao.findLastByUser(user.getId(), 0, 2);
+
+        System.out.println("------ " + posts);
+
+        assertThat(
+                posts.get(0),
+                equalTo(post2)
+        );
+
+        assertThat(
+                posts.get(1),
+                equalTo(post1)
+        );
+
     }
 
-    @Test
-    public void delete() {
-        Post post = postDao.findPage(0, 1).iterator().next();
-        postDao.delete(post);
+    private Post buildFirstPost(User user) {
+        return new PostBuilder()
+                .user(user)
+                .body(FIRST_POST_BODY)
+                .build();
     }
 
-    @Test
-    public void findAll() {
-        assertNotNull(postDao.findAll());
+    private Post buildSecondPost(User user) {
+        return new PostBuilder()
+                .user(user)
+                .body(SECOND_POST_BODY)
+                .build();
     }
 
-    @Test
-    public void count() {
-        assertEquals(new Long(3), postDao.count());
-    }
-
-    @Test
-    public void exists() {
-        assertFalse(postDao.exists(1231414L));
+    private User buildUser() {
+        return new UserBuilder()
+                .email("test_user@example.com")
+                .firstName("T_USER_FIRST_NAME")
+                .lastName("T_USER_LAST_NAME")
+                .encryptedPassword("T_USER_ENC_PASSWORD")
+                .build();
     }
 }

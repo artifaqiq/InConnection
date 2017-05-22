@@ -66,6 +66,6 @@ public class AvatarDaoIT {
 
     @Test
     public void exists() {
-        assertFalse(avatarDao.exists(1231414L));
+        assertFalse(avatarDao.exist(1231414L));
     }
 }

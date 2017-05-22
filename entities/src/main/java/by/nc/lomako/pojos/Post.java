@@ -25,21 +25,32 @@ import static javax.persistence.GenerationType.IDENTITY;
         "user"
 })
 @Entity
+@Table(
+        name = "T_POSTS",
+        indexes = {@Index(columnList = "USER_ID")}
+)
 public final class Post implements Serializable {
     private static final long serialVersionUID = -2007000771409705812L;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID")
     private long id;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(
+            nullable = false,
+            name = "USER_ID"
+    )
     private User user;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "CREATED_AT"
+    )
     private Timestamp createdDate;
 
-    @Column
+    @Column(name = "BODY")
     private String body;
 
     @PrePersist

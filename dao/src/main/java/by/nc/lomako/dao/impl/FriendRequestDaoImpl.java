@@ -7,6 +7,8 @@ import by.nc.lomako.dao.FriendRequestDao;
 import by.nc.lomako.pojos.FriendRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Lomako
  * @version 1.0
@@ -16,5 +18,22 @@ public class FriendRequestDaoImpl extends AbstractCrudDao<FriendRequest, Long> i
 
     public FriendRequestDaoImpl() {
         super(FriendRequest.class);
+    }
+
+    @Override
+    public FriendRequest findByUsers(long userFromId, long userToId) {
+
+        List results = em
+                .createQuery("from FriendRequest fr where fr.userFrom.id = :userFromId and fr.userTo.id = :userToId")
+                .setParameter("userFromId", userFromId)
+                .setParameter("userToId", userToId)
+                .getResultList();
+
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return (FriendRequest) results.get(0);
+        }
+
     }
 }

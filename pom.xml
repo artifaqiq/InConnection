@@ -25,18 +25,44 @@
     <properties>
         <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
         <tomcat.maven.plugin.version>1.1</tomcat.maven.plugin.version>
+
+        <entities.version>1.0</entities.version>
+        <services.version>1.0</services.version>
+        <dao.version>1.0</dao.version>
+
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Entities -->
+            <dependency>
+                <groupId>by.nc.lomako.social</groupId>
+                <artifactId>entities</artifactId>
+                <version>${entities.version}</version>
+            </dependency>
+
+            <!-- Services -->
+            <dependency>
+                <groupId>by.nc.lomako.social</groupId>
+                <artifactId>services</artifactId>
+                <version>${services.version}</version>
+            </dependency>
+
+            <!-- DAO -->
+            <dependency>
+                <groupId>by.nc.lomako.social</groupId>
+                <artifactId>dao</artifactId>
+                <version>${dao.version}</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
     <name>in-connection</name>
 
-
     <build>
-        <finalName>payments</finalName>
+        <finalName>in-connection</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

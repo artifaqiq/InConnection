@@ -24,22 +24,34 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString(exclude = {
         "user"
 })
+
 @Entity
+@Table(name = "T_AVATARS")
 public final class Avatar implements Serializable {
     private static final long serialVersionUID = -1780394933498189617L;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID")
     private long id;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "CREATED_AT"
+    )
     private Timestamp createdDate;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            name = "URL"
+    )
     private String url;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(
+            nullable = false,
+            name = "USER_ID"
+    )
     private User user;
 
     @PrePersist

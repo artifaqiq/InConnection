@@ -11,4 +11,6 @@ import by.nc.lomako.pojos.FriendRequest;
  */
 public interface FriendRequestDao extends CrudDao<FriendRequest, Long> {
 
+    FriendRequest findByUsers(long userFromId, long userToId);
+
 }

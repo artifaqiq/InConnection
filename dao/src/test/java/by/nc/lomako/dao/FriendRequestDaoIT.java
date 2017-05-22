@@ -69,6 +69,13 @@ public class FriendRequestDaoIT {
 
     @Test
     public void exists() {
-        assertFalse(friendRequestDao.exists(1231414L));
+        assertFalse(friendRequestDao.exist(1231414L));
+    }
+
+    @Test
+    public void findByUsers() {
+        assertNotNull(friendRequestDao.findByUsers(1, 2));
+        assertNotNull(friendRequestDao.findByUsers(1, 3));
+        assertNull(friendRequestDao.findByUsers(1, 4));
     }
 }

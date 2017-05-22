@@ -3,7 +3,10 @@
  */
 package by.nc.lomako.dao;
 
+import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.pojos.User;
+
+import java.util.List;
 
 /**
  * @author Lomako
@@ -12,4 +15,7 @@ import by.nc.lomako.pojos.User;
 public interface UserDao extends CrudDao<User, Long> {
 
     User findByEmail(String email);
+
+    List<User> findByRole(RoleType role, int start, int limit);
+
 }
