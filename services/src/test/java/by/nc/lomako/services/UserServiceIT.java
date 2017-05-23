@@ -7,7 +7,6 @@ import by.nc.lomako.dto.user.*;
 import by.nc.lomako.exceptions.IncorrectLoginOrPasswordException;
 import by.nc.lomako.exceptions.UniqueEmailException;
 import by.nc.lomako.exceptions.UserNotFoundException;
-import by.nc.lomako.pojos.Role;
 import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.services.utils.DaoTestsHelper;
 import by.nc.lomako.utils.PasswordCryptographyUtil;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -266,8 +264,8 @@ public class UserServiceIT {
         UserForRegisterDto firstUserForRegisterDto = buildFirstUserForRegisterDto();
         long id = userService.register(firstUserForRegisterDto);
 
-        UserForUpdateDto userForUpdateDto = buildUserForUpdateDto(id);
-        userService.update(userForUpdateDto);
+        UserForUpdateDto userForUpdateDto = buildUserForUpdateDto();
+        userService.update(id, userForUpdateDto);
 
         userService.login(new UserForLoginDto(USER_NEW_EMAIL, FIRST_USER_PASSWORD));
     }
@@ -303,9 +301,7 @@ public class UserServiceIT {
         userService.setRoles(id, newRoles);
 
         UserInfoDto userInfoDto = userService.findById(id);
-        Set<RoleType> expectedRoleTypes = userInfoDto.getRoles().stream()
-                .map(Role::getRoleType)
-                .collect(Collectors.toSet());
+        Set<RoleType> expectedRoleTypes = userInfoDto.getRoles();
 
         assertThat(
                 newRoles.getRoleTypes(),
@@ -392,9 +388,8 @@ public class UserServiceIT {
         return userDto;
     }
 
-    private UserForUpdateDto buildUserForUpdateDto(long id) {
+    private UserForUpdateDto buildUserForUpdateDto() {
         UserForUpdateDto userDto = new UserForUpdateDto();
-        userDto.setId(id);
         userDto.setEmail(USER_NEW_EMAIL);
         userDto.setFirstName(USER_NEW_FIRST_NAME);
         userDto.setLastName(USER_NEW_LAST_NAME);

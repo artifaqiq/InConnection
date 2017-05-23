@@ -3,6 +3,7 @@
  */
 package by.nc.lomako.pojos;
 
+import by.nc.lomako.pojos.constants.StringLength;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -58,7 +59,8 @@ public final class Message implements Serializable {
 
     @Column(
             name = "BODY",
-            nullable = false
+            nullable = false,
+            length = StringLength.TEXT
     )
     private String body;
 

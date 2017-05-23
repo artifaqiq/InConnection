@@ -3,7 +3,7 @@
  */
 package by.nc.lomako.dto.user;
 
-import by.nc.lomako.pojos.Role;
+import by.nc.lomako.pojos.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +26,5 @@ public final class UserInfoDto {
     private String lastName;
     private Timestamp createdDate;
     private Timestamp updatedDate;
-    private Set<Role> roles;
+    private Set<RoleType> roles;
 }

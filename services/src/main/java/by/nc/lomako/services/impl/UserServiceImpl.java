@@ -103,7 +103,9 @@ public class UserServiceImpl implements UserService {
                     user.getLastName(),
                     user.getCreatedDate(),
                     user.getUpdatedDate(),
-                    user.getRoles()
+                    user.getRoles().stream()
+                            .map(Role::getRoleType)
+                            .collect(Collectors.toSet())
             );
         }
     }
@@ -123,7 +125,9 @@ public class UserServiceImpl implements UserService {
                 user.getLastName(),
                 user.getCreatedDate(),
                 user.getUpdatedDate(),
-                user.getRoles()
+                user.getRoles().stream()
+                        .map(Role::getRoleType)
+                        .collect(Collectors.toSet())
         );
 
     }
@@ -142,7 +146,9 @@ public class UserServiceImpl implements UserService {
                     user.getLastName(),
                     user.getCreatedDate(),
                     user.getUpdatedDate(),
-                    user.getRoles()
+                    user.getRoles().stream()
+                            .map(Role::getRoleType)
+                            .collect(Collectors.toSet())
             ));
         }
 
@@ -164,7 +170,9 @@ public class UserServiceImpl implements UserService {
                     user.getLastName(),
                     user.getCreatedDate(),
                     user.getUpdatedDate(),
-                    user.getRoles()
+                    user.getRoles().stream()
+                            .map(Role::getRoleType)
+                            .collect(Collectors.toSet())
             ));
         }
 
@@ -172,14 +180,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(final UserForUpdateDto userDto) throws UniqueEmailException {
+    public void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException {
 
         User userWithSomeEmail = userDao.findByEmail(userDto.getEmail());
-        if (userWithSomeEmail != null && userWithSomeEmail.getId() != userDto.getId()) {
+        if (userWithSomeEmail != null && userWithSomeEmail.getId() != userId) {
             throw new UniqueEmailException();
         }
 
-        User user = userDao.findOne(userDto.getId());
+        User user = userDao.findOne(userId);
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -225,7 +233,9 @@ public class UserServiceImpl implements UserService {
                     user.getLastName(),
                     user.getCreatedDate(),
                     user.getUpdatedDate(),
-                    user.getRoles()
+                    user.getRoles().stream()
+                            .map(Role::getRoleType)
+                            .collect(Collectors.toSet())
             ));
         }
 

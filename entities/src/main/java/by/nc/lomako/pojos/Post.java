@@ -3,6 +3,7 @@
  */
 package by.nc.lomako.pojos;
 
+import by.nc.lomako.pojos.constants.StringLength;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -50,7 +51,11 @@ public final class Post implements Serializable {
     )
     private Timestamp createdDate;
 
-    @Column(name = "BODY")
+    @Column(
+            name = "BODY",
+            nullable = false,
+            length = StringLength.TEXT
+    )
     private String body;
 
     @PrePersist

@@ -22,25 +22,25 @@ public interface UserService {
 
     long login(final UserForLoginDto userDto) throws IncorrectLoginOrPasswordException;
 
-    UserInfoDto findByEmail(String s) throws UserNotFoundException;
+    UserInfoDto findByEmail(final String s) throws UserNotFoundException;
 
-    UserInfoDto findById(long id) throws UserNotFoundException;
+    UserInfoDto findById(final long id) throws UserNotFoundException;
 
     List<UserInfoDto> findAll();
 
-    List<UserInfoDto> findAll(int start, int limit);
+    List<UserInfoDto> findAll(final int start, final int limit);
 
-    void update(final UserForUpdateDto userDto) throws UniqueEmailException;
+    void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException;
 
     long create(final UserForCreateDto userDto) throws UniqueEmailException;
 
-    List<UserInfoDto> findByRole(RoleType role, int start, int limit);
+    List<UserInfoDto> findByRole(final RoleType role, final int start, final int limit);
 
-    void deleteById(long userId);
+    void deleteById(final long userId);
 
-    void setRoles(long userId, RoleTypesSetDto roles);
+    void setRoles(final long userId, RoleTypesSetDto roles);
 
-    boolean isEmailExist(String email);
+    boolean isEmailExist(final String email);
 
     long count();
 }

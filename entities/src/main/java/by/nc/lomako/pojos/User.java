@@ -3,6 +3,7 @@
  */
 package by.nc.lomako.pojos;
 
+import by.nc.lomako.pojos.constants.StringLength;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -49,27 +50,30 @@ public final class User implements Serializable {
     private long id;
 
     @Column(
+            name = "EMAIL",
             unique = true,
             nullable = false,
-            name = "EMAIL"
+            length = StringLength.EMAIL
     )
     private String email;
 
     @Column(
+            name = "FIRST_NAME",
             nullable = false,
-            name = "FIRST_NAME"
+            length = StringLength.FIRST_NAME
     )
     private String firstName;
 
     @Column(
+            name = "LAST_NAME",
             nullable = false,
-            name = "LAST_NAME"
+            length = StringLength.LAST_NAME
     )
     private String lastName;
 
     @Column(
-            nullable = false,
-            name = "B_CRYPT_PASSWORD"
+            name = "B_CRYPT_PASSWORD",
+            nullable = false
     )
     private String encryptedPassword;
 
