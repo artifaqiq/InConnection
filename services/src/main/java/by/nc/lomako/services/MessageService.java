@@ -19,11 +19,11 @@ public interface MessageService {
 
     long sendMessage(long userFromId, MessageForSendDto messageForSendDto) throws UserNotFoundException;
 
-    List<MessageInfoDto> findLastByUsers(long firstUserId, long secondUserId, int start, int limit);
+    List<MessageInfoDto> findLastByUsers(long firstUserId, long secondUserId, int start, int limit) throws UserNotFoundException;
 
     long countByUsers(long firstUserId, long secondUserId);
 
-    void deleteById(long id);
+    void deleteById(long id) throws MessageNotFoundException;
 
     void deleteAllByUsers(long firstUserId, long secondUserId);
 
@@ -31,7 +31,7 @@ public interface MessageService {
 
     void update(long id, MessageForUpdateDto messageDto);
 
-    List<MessageInfoDto> findLastDialogs(long userId, int start, int limit);
+    List<MessageInfoDto> findLastDialogs(long userId, int start, int limit) throws UserNotFoundException;
 
     long countDialogs(long userId);
 

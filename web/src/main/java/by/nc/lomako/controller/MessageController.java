@@ -6,6 +6,7 @@ package by.nc.lomako.controller;
 import by.nc.lomako.dto.OperationStatusDto;
 import by.nc.lomako.dto.message.MessageForSendDto;
 import by.nc.lomako.dto.message.MessageInfoDto;
+import by.nc.lomako.exceptions.MessageNotFoundException;
 import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.security.UserDetailsImpl;
 import by.nc.lomako.services.MessageService;
@@ -14,15 +15,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.LOCATION;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * @author Lomako
@@ -34,20 +36,41 @@ public class MessageController {
 
     private MessageService messageService;
 
+    private MessageForSendDto.DtoValidator messageForSendDtoValidator;
+
     @Autowired
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, MessageForSendDto.DtoValidator messageForSendDtoValidator) {
         this.messageService = messageService;
+        this.messageForSendDtoValidator = messageForSendDtoValidator;
     }
 
     @RequestMapping(value = "/send", method = POST)
-    public ResponseEntity<?> sentMessage(
+    public ResponseEntity<?> sendMessage(
             @RequestBody MessageForSendDto messageDto,
-            Principal principal
+            Principal principal,
+            BindingResult bindingResult
 
     ) throws NumberFormatException, UserNotFoundException {
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication)principal).getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
         long currentUserId = userDetails.getUser().getId();
+
+        messageForSendDtoValidator.validate(messageDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+
+            System.out.println(bindingResult.getAllErrors());
+            System.out.println();
+
+            return new ResponseEntity<>(
+                    new OperationStatusDto(
+                            HttpStatus.BAD_REQUEST,
+                            bindingResult.getFieldErrors().stream()
+                                    .map(ObjectError::getCode)
+                                    .collect(Collectors.joining("; "))
+                    ),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
 
         long messageId = messageService.sendMessage(currentUserId, messageDto);
 
@@ -61,13 +84,26 @@ public class MessageController {
         );
     }
 
-    @RequestMapping(value = "/deleteById/{id}", method = DELETE)
+    @RequestMapping(value = "/delete/{messageId}", method = DELETE)
     public ResponseEntity<?> deleteMessage(
-            @PathVariable("id") String messageIdString,
+            @PathVariable("messageId") String messageIdString,
             Principal principal
-    ) {
-        long messageId = Long.valueOf(messageIdString);
-        // TODO: 5/17/17
+    ) throws MessageNotFoundException {
+        long messageId = Long.parseLong(messageIdString);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
+        long currentUserId = userDetails.getUser().getId();
+
+        MessageInfoDto message = messageService.findById(messageId);
+        if (message.getUserFromId() != currentUserId && message.getUserToId() != currentUserId) {
+            return new ResponseEntity<>(
+                    new OperationStatusDto(
+                            HttpStatus.FORBIDDEN,
+                            "Access denied"
+                    ),
+                    HttpStatus.FORBIDDEN
+            );
+        }
 
         messageService.deleteById(messageId);
 
@@ -78,21 +114,18 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/last/{userId}", method = GET)
-    public ResponseEntity<?> lastMessages(
+    public ResponseEntity<List<MessageInfoDto>> getLastMessagesBetweenUsers(
             @PathVariable("userId") String userIdString,
             @RequestParam("start") String startString,
             @RequestParam("limit") String limitString,
             Principal principal
-    ) {
-        long userId = Long.valueOf(userIdString);
-        int start = Integer.valueOf(startString);
-        int limit = Integer.valueOf(limitString);
+    ) throws UserNotFoundException {
 
-        if(start < 0 || limit < 0) {
-            throw new NumberFormatException();
-        }
+        long userId = Long.parseLong(userIdString);
+        int start = Integer.parseInt(startString);
+        int limit = Integer.parseInt(limitString);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication)principal).getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
         long currentUserId = userDetails.getUser().getId();
 
         List<MessageInfoDto> messages = messageService.findLastByUsers(userId, currentUserId, start, limit);
@@ -103,4 +136,70 @@ public class MessageController {
         );
 
     }
+
+    @RequestMapping(value = "/{id}", method = GET)
+    public ResponseEntity<?> showMessage(
+            @PathVariable("id") String idString,
+            Principal principal
+    ) throws MessageNotFoundException {
+
+        long id = Long.parseLong(idString);
+
+        MessageInfoDto messageInfoDto = messageService.findById(id);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
+        long currentUserId = userDetails.getUser().getId();
+
+        if (messageInfoDto.getUserFromId() != currentUserId && messageInfoDto.getUserToId() != currentUserId) {
+            return new ResponseEntity<>(
+                    new OperationStatusDto(
+                            HttpStatus.FORBIDDEN,
+                            "Access denied"
+                    ),
+                    HttpStatus.FORBIDDEN
+            );
+        }
+
+        return new ResponseEntity<>(
+                messageInfoDto,
+                HttpStatus.OK
+        );
+    }
+
+    @RequestMapping(value = "/last_dialogs/index", method = GET)
+    public ResponseEntity<List<MessageInfoDto>> getLastDialogs(
+            @RequestParam("start") String startString,
+            @RequestParam("limit") String limitString,
+            Principal principal
+    ) throws UserNotFoundException {
+
+        int start = Integer.parseInt(startString);
+        int limit = Integer.parseInt(limitString);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
+        long currentUserId = userDetails.getUser().getId();
+
+        List<MessageInfoDto> lastDialogs = messageService.findLastDialogs(currentUserId, start, limit);
+
+        return new ResponseEntity<List<MessageInfoDto>>(
+                lastDialogs,
+                HttpStatus.OK
+        );
+    }
+
+    @RequestMapping(value = "/last_dialogs/count", method = GET)
+    public ResponseEntity<?> countLastDialogs(
+            Principal principal
+    ) throws UserNotFoundException {
+        UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
+        long currentUserId = userDetails.getUser().getId();
+
+        long countDialogs = messageService.countDialogs(currentUserId);
+
+        return new ResponseEntity<Object>(
+                countDialogs,
+                HttpStatus.OK
+        );
+    }
+
 }

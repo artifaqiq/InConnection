@@ -61,13 +61,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageInfoDto> findLastByUsers(long firstUserId, long secondUserId, int start, int limit) {
+    public List<MessageInfoDto> findLastByUsers(long firstUserId, long secondUserId, int start, int limit)
+            throws UserNotFoundException {
+        if (userDao.findOne(firstUserId) == null || userDao.findOne(secondUserId) == null) {
+            throw new UserNotFoundException();
+        }
+
         List<MessageInfoDto> messageDtos = new LinkedList<>();
         List<Message> messages = messageDao.findLastMessagesByUsers(firstUserId, secondUserId, start, limit);
 
         for (Message message : messages) {
             MessageInfoDto messageDto = new MessageInfoDto();
-            message.setId(message.getId());
+            messageDto.setId(message.getId());
             messageDto.setBody(message.getBody());
             messageDto.setCreatedDate(message.getCreatedDate());
             messageDto.setUserFromId(message.getUserFrom().getId());
@@ -81,7 +86,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws MessageNotFoundException {
+        if (messageDao.findOne(id) == null) {
+            throw new MessageNotFoundException();
+        }
+
         messageDao.deleteById(id);
     }
 
@@ -125,7 +134,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageInfoDto> findLastDialogs(long userId, int start, int limit) {
+    public List<MessageInfoDto> findLastDialogs(long userId, int start, int limit) throws UserNotFoundException {
+        if (userDao.findOne(userId) == null) {
+            throw new UserNotFoundException();
+        }
+
         List<Message> lastDialogs = messageDao.findLastDialogs(userId, start, limit);
         LinkedList<MessageInfoDto> lastDialogsDtos = new LinkedList<>();
 

@@ -4,7 +4,7 @@
 package by.nc.lomako.security;
 
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.pojos.Role;
+import by.nc.lomako.pojos.RoleType;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +29,8 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new GrantedAuthorityImpl(role.getRoleType()));
+        for (RoleType role : user.getRoles()) {
+            grantedAuthorities.add(new GrantedAuthorityImpl(role));
         }
 
         return grantedAuthorities;

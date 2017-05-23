@@ -8,10 +8,10 @@ import by.nc.lomako.dao.UserDao;
 import by.nc.lomako.dto.post.PostForCreateDto;
 import by.nc.lomako.dto.post.PostForUpdateDto;
 import by.nc.lomako.dto.post.PostInfoDto;
+import by.nc.lomako.exceptions.PostNotFoundException;
 import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.Post;
 import by.nc.lomako.pojos.User;
-import by.nc.lomako.exceptions.PostNotFoundException;
 import by.nc.lomako.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(long id) throws PostNotFoundException {
+    public void deleteById(long id) throws PostNotFoundException {
         Post post = postDao.findOne(id);
 
         if (post == null) {

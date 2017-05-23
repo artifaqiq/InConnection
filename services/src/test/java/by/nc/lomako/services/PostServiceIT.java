@@ -67,7 +67,7 @@ public class PostServiceIT {
     public void tearDown() throws Exception {
         List<PostInfoDto> posts = postService.findAll();
         for (PostInfoDto post : posts) {
-            postService.delete(post.getId());
+            postService.deleteById(post.getId());
         }
 
         List<UserInfoDto> users = userService.findAll();
@@ -149,7 +149,7 @@ public class PostServiceIT {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
         long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
 
-        postService.delete(postId);
+        postService.deleteById(postId);
 
         assertThat(
                 postService.findAll().size(),
@@ -159,7 +159,7 @@ public class PostServiceIT {
 
     @Test(expected = PostNotFoundException.class)
     public void deleteNoExistPost() throws Exception {
-        postService.delete(NOT_EXIST_ID);
+        postService.deleteById(NOT_EXIST_ID);
     }
 
     @Test

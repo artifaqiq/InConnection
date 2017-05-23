@@ -37,7 +37,7 @@ public class MessageForUpdateDto {
         @Override
         public void validate(Object target, Errors errors) {
 
-            MessageForSendDto messageDto = (MessageForSendDto) target;
+            MessageForUpdateDto messageDto = (MessageForUpdateDto) target;
 
             rejectIfEmptyOrWhitespace(errors, "body", "body.required");
             if (messageDto.getBody().length() > StringLength.TEXT) {

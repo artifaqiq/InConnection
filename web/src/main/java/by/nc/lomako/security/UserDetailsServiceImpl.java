@@ -5,7 +5,7 @@ package by.nc.lomako.security;
 
 import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.exceptions.UserNotFoundException;
-import by.nc.lomako.pojos.Role;
+import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,8 +50,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         System.out.println(userInfoDto.getRoles());
 
-        for(Role role : userInfoDto.getRoles()) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRoleType().toString());
+        for (RoleType role : userInfoDto.getRoles()) {
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.toString());
             authorities.add(grantedAuthority);
         }
         return authorities;

@@ -8,14 +8,16 @@ import by.nc.lomako.dto.user.UserForRegisterDto;
 import by.nc.lomako.exceptions.UniqueEmailException;
 import by.nc.lomako.security.SecurityService;
 import by.nc.lomako.services.UserService;
-import by.nc.lomako.validation.UserForRegisterDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -24,25 +26,23 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @version 1.0
  */
 @RestController
+@RequestMapping("api/v1/auth")
 public class RestAuthController {
     private UserService userService;
 
     private SecurityService securityService;
 
-    private UserForRegisterDtoValidator userForRegisterDtoValidator;
+    private UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
 
     @Autowired
-    public RestAuthController(
-            UserService userService,
-            SecurityService securityService,
-            UserForRegisterDtoValidator userForRegisterDtoValidator
-    ) {
+    public RestAuthController(UserService userService, SecurityService securityService,
+                              UserForRegisterDto.DtoValidator userForRegisterDtoValidator) {
         this.userService = userService;
         this.securityService = securityService;
         this.userForRegisterDtoValidator = userForRegisterDtoValidator;
     }
 
-    @RequestMapping(value = "api/v1/auth/register", method = POST)
+    @RequestMapping(value = "/register", method = POST)
     public ResponseEntity<?> register(
             @RequestBody UserForRegisterDto userDto,
             BindingResult bindingResult
@@ -52,7 +52,11 @@ public class RestAuthController {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(
-                    new OperationStatusDto(HttpStatus.BAD_REQUEST, "Incorrect json format"),
+                    new OperationStatusDto(
+                            HttpStatus.BAD_REQUEST,
+                            bindingResult.getAllErrors().stream()
+                                    .map(ObjectError::getCode)
+                                    .collect(Collectors.joining("; "))),
                     HttpStatus.BAD_REQUEST
             );
         }

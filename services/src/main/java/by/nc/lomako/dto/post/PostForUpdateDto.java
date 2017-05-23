@@ -29,12 +29,12 @@ public class PostForUpdateDto {
     public static class DtoValidator implements Validator {
         @Override
         public boolean supports(Class<?> clazz) {
-            return PostForCreateDto.class.isAssignableFrom(clazz);
+            return PostForUpdateDto.class.isAssignableFrom(clazz);
         }
 
         @Override
         public void validate(Object target, Errors errors) {
-            PostForCreateDto post = (PostForCreateDto) target;
+            PostForUpdateDto post = (PostForUpdateDto) target;
 
             rejectIfEmptyOrWhitespace(errors, "body", "body.required");
             if (post.getBody().length() > StringLength.TEXT) {
