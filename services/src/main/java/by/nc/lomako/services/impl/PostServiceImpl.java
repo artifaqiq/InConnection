@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public long create(PostForCreateDto postDto, long userId) throws UserNotFoundException {
+    public long create(long userId, PostForCreateDto postDto) throws UserNotFoundException {
         User user = userDao.findOne(userId);
 
         if (user == null) {

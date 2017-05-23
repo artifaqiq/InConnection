@@ -5,19 +5,22 @@ package by.nc.lomako.controller;
 
 import by.nc.lomako.dto.OperationStatusDto;
 import by.nc.lomako.dto.post.PostForCreateDto;
+import by.nc.lomako.dto.post.PostInfoDto;
 import by.nc.lomako.exceptions.PostNotFoundException;
 import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.security.UserDetailsImpl;
-import by.nc.lomako.dto.post.PostInfoDto;
 import by.nc.lomako.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -32,19 +35,34 @@ public class PostController {
 
     private PostService postService;
 
+    private PostForCreateDto.DtoValidator postForCreateDtoValidator;
+
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PostForCreateDto.DtoValidator postForCreateDtoValidator) {
         this.postService = postService;
+        this.postForCreateDtoValidator = postForCreateDtoValidator;
     }
 
     @RequestMapping(value = "/create", method = POST)
-    public ResponseEntity<?> create(
-            @RequestBody PostForCreateDto postDto
+    public ResponseEntity<?> createPost(
+            @RequestBody PostForCreateDto postDto,
+            BindingResult bindingResult
     ) throws UserNotFoundException {
 
+        postForCreateDtoValidator.validate(postDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<Object>(
+                    bindingResult.getAllErrors().stream()
+                            .map(ObjectError::getCode)
+                            .collect(Collectors.joining("; ")),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        long userId = user.getUser().getId();
-        long postId = postService.create(postDto, userId);
+        long currentUserId = user.getUser().getId();
+
+        long postId = postService.create(currentUserId, postDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(LOCATION, "/api/v1/posts/" + postId);
@@ -56,38 +74,79 @@ public class PostController {
         );
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE)
-    public ResponseEntity<?> delete(
-            @PathVariable(value = "id") String idString
-    ) {
-        try {
-            long postId = Long.valueOf(idString);
-            postService.delete(postId);
+    @RequestMapping(value = "/{postId}", method = GET)
+    public ResponseEntity<?> showPost(
+            @PathVariable(value = "postId") String postIdString
+    ) throws PostNotFoundException {
 
-        } catch (PostNotFoundException e) {
-            return new ResponseEntity<Object>(
-                    new OperationStatusDto(HttpStatus.NOT_FOUND, "post not found"),
-                    HttpStatus.NOT_FOUND
-            );
-        }
+        long postId = Long.parseLong(postIdString);
+        PostInfoDto postInfoDto = postService.findById(postId);
 
         return new ResponseEntity<>(
-                new OperationStatusDto(HttpStatus.OK, "success"),
+                postInfoDto,
                 HttpStatus.OK
         );
     }
 
-    @RequestMapping(value = "/user/{id}", method = GET)
-    public ResponseEntity<List<PostInfoDto>> showByUser(
-            @PathVariable("id") String userIdString,
+    @RequestMapping(value = "/{postId}", method = DELETE)
+    public ResponseEntity<?> deletePost(
+            @PathVariable(value = "postId") String postIdString
+    ) throws PostNotFoundException {
+
+        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long currentUserId = user.getUser().getId();
+
+        long postId = Long.parseLong(postIdString);
+
+        PostInfoDto postInfoDto = postService.findById(postId);
+
+        if (postInfoDto.getUserId() != currentUserId) {
+            return new ResponseEntity<>(
+                    new OperationStatusDto(
+                            HttpStatus.FORBIDDEN,
+                            "Access denied"
+                    ),
+                    HttpStatus.FORBIDDEN
+            );
+        }
+
+        postService.deleteById(postId);
+
+        return new ResponseEntity<>(
+                new OperationStatusDto(
+                        HttpStatus.OK,
+                        "success"
+                ),
+                HttpStatus.OK
+        );
+    }
+
+    @RequestMapping(value = "user/{userId}/last/index", method = GET)
+    public ResponseEntity<List<PostInfoDto>> getLastPostsByUser(
+            @PathVariable("userId") String userIdString,
             @RequestParam("start") String startString,
             @RequestParam("limit") String limitString
-    ) {
+    ) throws UserNotFoundException {
+
         long userId = Long.valueOf(userIdString);
         int start = Integer.valueOf(startString);
         int limit = Integer.valueOf(limitString);
 
         return new ResponseEntity<>(
                 postService.findLastByUser(userId, start, limit), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "user/{userId}/last/count", method = GET)
+    public ResponseEntity<?> getCountLastPostsByUser(
+            @PathVariable("userId") String userIdString
+    ) throws UserNotFoundException {
+        long userId = Long.valueOf(userIdString);
+
+        long countByUser = postService.countByUser(userId);
+
+        return new ResponseEntity<>(
+                countByUser,
+                HttpStatus.OK
+        );
     }
 }

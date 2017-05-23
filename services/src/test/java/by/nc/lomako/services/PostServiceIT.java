@@ -81,7 +81,7 @@ public class PostServiceIT {
     @Test
     public void findById() throws Exception {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
+        long postId = postService.create(userId, buildPostForCreateDto(FIRST_POST_BODY));
 
         assertThat(
                 postService.findById(postId).getBody(),
@@ -98,7 +98,7 @@ public class PostServiceIT {
     public void updatePost() throws Exception {
         long firstUserId = userService.register(buildUser(FIRST_USER_EMAIL));
         long secondUserId = userService.register(buildUser(SECOND_USER_EMAIL));
-        long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), firstUserId);
+        long postId = postService.create(firstUserId, buildPostForCreateDto(FIRST_POST_BODY));
 
         postService.update(postId, buildPostForUpdateDto(secondUserId));
         PostInfoDto byId = postService.findById(postId);
@@ -117,7 +117,7 @@ public class PostServiceIT {
     @Test(expected = UserNotFoundException.class)
     public void updateWithNotExistUser() throws Exception {
         long firstUserId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), firstUserId);
+        long postId = postService.create(firstUserId, buildPostForCreateDto(FIRST_POST_BODY));
 
         postService.update(postId, buildPostForUpdateDto(NOT_EXIST_ID));
     }
@@ -131,7 +131,7 @@ public class PostServiceIT {
     @Test
     public void createPost() throws Exception {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
+        long postId = postService.create(userId, buildPostForCreateDto(FIRST_POST_BODY));
 
         assertThat(
                 postService.findById(postId).getBody(),
@@ -141,13 +141,13 @@ public class PostServiceIT {
 
     @Test(expected = UserNotFoundException.class)
     public void createPostWithNotExistUser() throws Exception {
-        postService.create(buildPostForCreateDto(FIRST_POST_BODY), NOT_EXIST_ID);
+        postService.create(NOT_EXIST_ID, buildPostForCreateDto(FIRST_POST_BODY));
     }
 
     @Test
     public void delete() throws Exception {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long postId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
+        long postId = postService.create(userId, buildPostForCreateDto(FIRST_POST_BODY));
 
         postService.deleteById(postId);
 
@@ -165,11 +165,11 @@ public class PostServiceIT {
     @Test
     public void findLastByUser() throws Exception {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long firstPostId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
+        long firstPostId = postService.create(userId, buildPostForCreateDto(FIRST_POST_BODY));
         Thread.sleep(1001);
-        long secondPostId = postService.create(buildPostForCreateDto(SECOND_POST_BODY), userId);
+        long secondPostId = postService.create(userId, buildPostForCreateDto(SECOND_POST_BODY));
         Thread.sleep(1001);
-        long thirdPostId = postService.create(buildPostForCreateDto(THIRD_POST_BODY), userId);
+        long thirdPostId = postService.create(userId, buildPostForCreateDto(THIRD_POST_BODY));
 
         List<PostInfoDto> posts = postService.findLastByUser(userId, 0, 4);
         assertThat(
@@ -194,11 +194,11 @@ public class PostServiceIT {
     @Test
     public void countByUser() throws Exception {
         long userId = userService.register(buildUser(FIRST_USER_EMAIL));
-        long firstPostId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), userId);
+        long firstPostId = postService.create(userId, buildPostForCreateDto(FIRST_POST_BODY));
         Thread.sleep(1001);
-        long secondPostId = postService.create(buildPostForCreateDto(SECOND_POST_BODY), userId);
+        long secondPostId = postService.create(userId, buildPostForCreateDto(SECOND_POST_BODY));
         Thread.sleep(1001);
-        long thirdPostId = postService.create(buildPostForCreateDto(THIRD_POST_BODY), userId);
+        long thirdPostId = postService.create(userId, buildPostForCreateDto(THIRD_POST_BODY));
 
         long count = postService.countByUser(userId);
 
@@ -217,11 +217,11 @@ public class PostServiceIT {
     public void findAll() throws Exception {
         long firstUserId = userService.register(buildUser(FIRST_USER_EMAIL));
         long secondUserId = userService.register(buildUser(SECOND_USER_EMAIL));
-        long firstPostId = postService.create(buildPostForCreateDto(FIRST_POST_BODY), firstUserId);
+        long firstPostId = postService.create(firstUserId, buildPostForCreateDto(FIRST_POST_BODY));
         Thread.sleep(1001);
-        long secondPostId = postService.create(buildPostForCreateDto(SECOND_POST_BODY), firstUserId);
+        long secondPostId = postService.create(firstUserId, buildPostForCreateDto(SECOND_POST_BODY));
         Thread.sleep(1001);
-        long thirdPostId = postService.create(buildPostForCreateDto(THIRD_POST_BODY), secondUserId);
+        long thirdPostId = postService.create(firstUserId, buildPostForCreateDto(THIRD_POST_BODY));
 
         List<PostInfoDto> posts = postService.findAll();
         assertThat(

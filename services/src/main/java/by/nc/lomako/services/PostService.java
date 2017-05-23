@@ -16,12 +16,18 @@ import java.util.List;
  * @version 1.0
  */
 public interface PostService {
+
+    long create(long userId, PostForCreateDto postDto) throws UserNotFoundException;
+
     PostInfoDto findById(long id) throws PostNotFoundException;
+
     void update(long id, PostForUpdateDto post) throws PostNotFoundException, UserNotFoundException;
-    long create(PostForCreateDto postDto, long userId) throws UserNotFoundException;
 
     void deleteById(long id) throws PostNotFoundException;
+
     List<PostInfoDto> findLastByUser(long userId, int start, int limit) throws UserNotFoundException;
+
     long countByUser(long userId) throws UserNotFoundException;
+
     List<PostInfoDto> findAll();
 }
