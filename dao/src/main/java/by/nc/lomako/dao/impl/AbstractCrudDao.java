@@ -21,7 +21,7 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
     @PersistenceContext
     protected EntityManager em;
 
-    protected final Class entityType;
+    private final Class entityType;
 
     protected AbstractCrudDao(Class entityType) {
         this.entityType = entityType;

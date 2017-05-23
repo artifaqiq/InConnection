@@ -34,9 +34,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/api/v1/messages")
 public class MessageController {
 
-    private MessageService messageService;
+    private final MessageService messageService;
 
-    private MessageForSendDto.DtoValidator messageForSendDtoValidator;
+    private final MessageForSendDto.DtoValidator messageForSendDtoValidator;
 
     @Autowired
     public MessageController(MessageService messageService, MessageForSendDto.DtoValidator messageForSendDtoValidator) {
@@ -190,7 +190,7 @@ public class MessageController {
     @RequestMapping(value = "/last_dialogs/count", method = GET)
     public ResponseEntity<?> countLastDialogs(
             Principal principal
-    ) throws UserNotFoundException {
+    ) {
         UserDetailsImpl userDetails = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
         long currentUserId = userDetails.getUser().getId();
 

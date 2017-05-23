@@ -3,13 +3,13 @@
  */
 package by.nc.lomako.services.impl;
 
-import by.nc.lomako.services.FriendService;
 import by.nc.lomako.dao.FriendRequestDao;
 import by.nc.lomako.dao.UserDao;
+import by.nc.lomako.exceptions.DuplicateFriendRequest;
 import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.FriendRequest;
 import by.nc.lomako.pojos.User;
-import by.nc.lomako.exceptions.DuplicateFriendRequest;
+import by.nc.lomako.services.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class FriendServiceImpl implements FriendService {
 
-    private FriendRequestDao friendRequestDao;
+    private final FriendRequestDao friendRequestDao;
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     @Autowired
     public FriendServiceImpl(FriendRequestDao friendRequestDao, UserDao userDao) {

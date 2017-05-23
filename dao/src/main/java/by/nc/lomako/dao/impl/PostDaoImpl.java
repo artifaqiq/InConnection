@@ -44,6 +44,7 @@ public class PostDaoImpl extends AbstractCrudDao<Post, Long> implements PostDao 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public long countByUser(long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery q = cb.createQuery();

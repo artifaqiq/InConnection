@@ -30,15 +30,15 @@ public interface UserService {
 
     List<UserInfoDto> findAll(final int start, final int limit);
 
-    void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException;
+    void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException, UserNotFoundException;
 
     long create(final UserForCreateDto userDto) throws UniqueEmailException;
 
     List<UserInfoDto> findByRole(final RoleType role, final int start, final int limit);
 
-    void deleteById(final long userId);
+    void deleteById(final long userId) throws UserNotFoundException;
 
-    void setRoles(final long userId, RoleTypesSetDto roles);
+    void setRoles(final long userId, RoleTypesSetDto roles) throws UserNotFoundException;
 
     boolean isEmailExist(final String email);
 

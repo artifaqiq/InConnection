@@ -10,8 +10,6 @@ import by.nc.lomako.exceptions.UniqueEmailException;
 import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.services.UserService;
-import by.nc.lomako.validation.UserForCreateDtoValidator;
-import by.nc.lomako.validation.UserForUpdateDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,19 +28,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author Lomako
  * @version 1.0
  */
-@Controller
-@RequestMapping("/admin/user")
+@Controller("Aa")
+@RequestMapping("/admin/users")
 public class AdminUserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private UserForCreateDtoValidator userForCreateDtoValidator;
+    private final UserForCreateDto.DtoValidator userForCreateDtoValidator;
 
-    private UserForUpdateDtoValidator userForUpdateDtoValidator;
+    private final UserForUpdateDto.DtoValidator userForUpdateDtoValidator;
 
     @Autowired
-    public AdminUserController(UserService userService, UserForCreateDtoValidator userForCreateDtoValidator,
-                               UserForUpdateDtoValidator userForUpdateDtoValidator) {
+    public AdminUserController(UserService userService, UserForCreateDto.DtoValidator userForCreateDtoValidator,
+                               UserForUpdateDto.DtoValidator userForUpdateDtoValidator) {
         this.userService = userService;
         this.userForCreateDtoValidator = userForCreateDtoValidator;
         this.userForUpdateDtoValidator = userForUpdateDtoValidator;
@@ -56,17 +54,19 @@ public class AdminUserController {
             Model model
     ) {
 
-        List<UserInfoDto> userInfoDtos = null;
+        List<UserInfoDto> userInfoDtos;
+        int start = 0;
+        int limit = 0;
 
         if (startString != null && limitString != null) {
-            int start = Integer.parseInt(startString);
-            int limit = Integer.parseInt(limitString);
+            start = Integer.parseInt(startString);
+            limit = Integer.parseInt(limitString);
 
             userInfoDtos = userService.findAll(start, limit);
 
         } else if (roleString != null) {
             RoleType role = RoleType.valueOf(roleString);
-            userInfoDtos = userService.findByRole(role);
+            userInfoDtos = userService.findByRole(role, start, limit);
 
         } else {
             userInfoDtos = userService.findAll();
@@ -99,7 +99,6 @@ public class AdminUserController {
         UserInfoDto userInfoDto = userService.findById(id);
 
         UserForUpdateDto userForUpdateDto = new UserForUpdateDto();
-        userForUpdateDto.setId(userInfoDto.getId());
         userForUpdateDto.setEmail(userInfoDto.getEmail());
         userForUpdateDto.setFirstName(userInfoDto.getFirstName());
         userForUpdateDto.setLastName(userInfoDto.getLastName());
@@ -124,17 +123,19 @@ public class AdminUserController {
     )
         throws UserNotFoundException {
 
+        long id = Long.parseLong(idString);
+
         try {
             userForUpdateDtoValidator.validate(userForm, bindingResult);
             if(bindingResult.hasErrors()) {
-                return "redirect:/admin/user/edit/" + idString + "?error=user_not_valid";
+                return "redirect:/admin/user/edit/" + id + "?error=user_not_valid";
             }
 
-            userService.update(userForm);
-            return "redirect:/admin/user/" + idString;
+            userService.update(id, userForm);
+            return "redirect:/admin/user/" + id;
 
         } catch (UniqueEmailException e) {
-            return "redirect:/admin/user/edit/" + idString + "?error=binding_email";
+            return "redirect:/admin/user/edit/" + id + "?error=binding_email";
         }
     }
 

@@ -28,11 +28,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 @RequestMapping("api/v1/auth")
 public class RestAuthController {
-    private UserService userService;
+    private final UserService userService;
 
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
-    private UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
+    private final UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
 
     @Autowired
     public RestAuthController(UserService userService, SecurityService securityService,

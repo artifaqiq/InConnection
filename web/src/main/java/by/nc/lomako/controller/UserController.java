@@ -23,10 +23,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {

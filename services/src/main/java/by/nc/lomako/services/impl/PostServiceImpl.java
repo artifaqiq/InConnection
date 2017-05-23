@@ -28,8 +28,9 @@ import java.util.List;
 @Transactional
 public class PostServiceImpl implements PostService {
 
-    private PostDao postDao;
-    private UserDao userDao;
+    private final PostDao postDao;
+
+    private final UserDao userDao;
 
     @Autowired
     public PostServiceImpl(PostDao postDao, UserDao userDao) {
@@ -132,5 +133,10 @@ public class PostServiceImpl implements PostService {
         }
 
         return postDtos;
+    }
+
+    @Override
+    public long count() {
+        return postDao.count();
     }
 }

@@ -182,7 +182,7 @@ public class UserServiceIT {
 
     @Test(expected = UserNotFoundException.class)
     public void findByIncorrectId() throws Exception {
-        UserInfoDto userDto = userService.findById(INCORRECT_USER_ID);
+        userService.findById(INCORRECT_USER_ID);
     }
 
     @Test

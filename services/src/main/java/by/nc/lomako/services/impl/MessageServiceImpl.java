@@ -28,9 +28,9 @@ import java.util.List;
 @Transactional
 public class MessageServiceImpl implements MessageService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    private MessageDao messageDao;
+    private final MessageDao messageDao;
 
     @Autowired
     public MessageServiceImpl(UserDao userDao, MessageDao messageDao) {

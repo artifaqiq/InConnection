@@ -30,4 +30,6 @@ public interface PostService {
     long countByUser(long userId) throws UserNotFoundException;
 
     List<PostInfoDto> findAll();
+
+    long count();
 }

@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException {
+    public void update(final long userId, final UserForUpdateDto userDto) throws UniqueEmailException, UserNotFoundException {
 
         User userWithSomeEmail = userDao.findByEmail(userDto.getEmail());
         if (userWithSomeEmail != null && userWithSomeEmail.getId() != userId) {
@@ -188,6 +188,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userDao.findOne(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -243,14 +247,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws UserNotFoundException {
         User user = userDao.findOne(id);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
         userDao.delete(user);
     }
 
     @Override
-    public void setRoles(long userId, RoleTypesSetDto roles) {
+    public void setRoles(long userId, RoleTypesSetDto roles) throws UserNotFoundException {
         User user = userDao.findOne(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
         Set<RoleType> oldRoles = user.getRoles().stream()
                 .map(Role::getRoleType)
                 .collect(Collectors.toSet());

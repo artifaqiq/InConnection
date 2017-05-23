@@ -33,9 +33,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/api/v1/posts")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
-    private PostForCreateDto.DtoValidator postForCreateDtoValidator;
+    private final PostForCreateDto.DtoValidator postForCreateDtoValidator;
 
     @Autowired
     public PostController(PostService postService, PostForCreateDto.DtoValidator postForCreateDtoValidator) {
@@ -68,9 +68,9 @@ public class PostController {
         headers.add(LOCATION, "/api/v1/posts/" + postId);
 
         return new ResponseEntity<>(
-                new OperationStatusDto(HttpStatus.OK, "success"),
+                new OperationStatusDto(HttpStatus.CREATED, "success"),
                 headers,
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
