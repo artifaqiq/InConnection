@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:dao-context.test.xml")
+@ActiveProfiles("test")
 @Transactional
 public class PostServiceIT {
 
@@ -221,7 +223,7 @@ public class PostServiceIT {
         Thread.sleep(1001);
         long secondPostId = postService.create(firstUserId, buildPostForCreateDto(SECOND_POST_BODY));
         Thread.sleep(1001);
-        long thirdPostId = postService.create(firstUserId, buildPostForCreateDto(THIRD_POST_BODY));
+        long thirdPostId = postService.create(secondUserId, buildPostForCreateDto(THIRD_POST_BODY));
 
         List<PostInfoDto> posts = postService.findAll();
         assertThat(
