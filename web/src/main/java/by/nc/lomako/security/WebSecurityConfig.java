@@ -1,5 +1,6 @@
 package by.nc.lomako.security;
 
+import by.nc.lomako.pojos.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,8 +57,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(API_V1_AUTH_REGISTER_PATH, API_V1_AUTH_LOGIN_PATH).permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/api/v1/users/**", "/api/v1/posts/**", "/api/v1/messages/**")
+                .hasAnyRole(RoleType.USER.name(), RoleType.MODERATOR.name(), RoleType.ADMIN.name())
+                .antMatchers("/api/v1/admin/**")
+                .hasRole(RoleType.ADMIN.name())
+                .antMatchers(API_V1_AUTH_REGISTER_PATH, API_V1_AUTH_LOGIN_PATH)
+                .permitAll()
                 .and()
                     .formLogin()
                 .loginProcessingUrl(API_V1_AUTH_LOGIN_PATH)

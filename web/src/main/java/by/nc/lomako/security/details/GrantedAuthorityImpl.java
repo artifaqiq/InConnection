@@ -22,6 +22,6 @@ public class GrantedAuthorityImpl implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return roleType.name();
+        return "ROLE_" + roleType.name();
     }
 }
