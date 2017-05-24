@@ -1,8 +1,5 @@
 package by.nc.lomako.security;
 
-import by.nc.lomako.security.handlers.AuthFailureHandler;
-import by.nc.lomako.security.handlers.AuthLogoutHandler;
-import by.nc.lomako.security.handlers.AuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +9,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String API_V1_AUTH_LOGIN_PATH = "/login";
+    private static final String API_V1_AUTH_REGISTER_PATH = "/api/v1/auth/register";
+    private static final String API_V1_AUTH_LOGOUT_PATH = "/api/v1/auth/logout";
+    private static final String USERNAME_PARAMETER = "email";
+    private static final String PASSWORD_PARAMETER = "password";
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -24,43 +31,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    private final AuthSuccessHandler authSuccessHandler;
+    private final AuthenticationSuccessHandler authSuccessHandler;
 
-    private final AuthFailureHandler authFailureHandler;
+    private final AuthenticationFailureHandler authFailureHandler;
 
-    private final AuthLogoutHandler authLogoutHandler;
+    private final LogoutSuccessHandler authLogoutHandler;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, AuthSuccessHandler authSuccessHandler,
-                             AuthFailureHandler authFailureHandler, AuthLogoutHandler authLogoutHandler) {
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    public WebSecurityConfig(
+            UserDetailsService userDetailsService, AuthenticationSuccessHandler authSuccessHandler,
+            AuthenticationFailureHandler authFailureHandler, LogoutSuccessHandler authLogoutHandler,
+            AuthenticationEntryPoint authenticationEntryPoint
+    ) {
         this.userDetailsService = userDetailsService;
         this.authSuccessHandler = authSuccessHandler;
         this.authFailureHandler = authFailureHandler;
         this.authLogoutHandler = authLogoutHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll()
+                .antMatchers(API_V1_AUTH_REGISTER_PATH, API_V1_AUTH_LOGIN_PATH).permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .httpBasic()
-                .and()
                     .formLogin()
-                .loginProcessingUrl("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .successHandler(authSuccessHandler)
+                .loginProcessingUrl(API_V1_AUTH_LOGIN_PATH)
+                .usernameParameter(USERNAME_PARAMETER)
+                .passwordParameter(PASSWORD_PARAMETER)
                 .failureHandler(authFailureHandler)
+                .successHandler(authSuccessHandler)
                     .permitAll()
                 .and()
                     .logout()
+                .logoutUrl(API_V1_AUTH_LOGOUT_PATH)
                 .logoutSuccessHandler(authLogoutHandler)
                     .permitAll()
                 .and()
-                    .csrf()
-                    .disable();
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .csrf().disable();
 
     }
 

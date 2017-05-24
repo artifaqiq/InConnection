@@ -7,6 +7,7 @@ import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.security.details.UserDetailsImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -36,6 +37,7 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         UserInfoDto user = userDetails.getUser();
