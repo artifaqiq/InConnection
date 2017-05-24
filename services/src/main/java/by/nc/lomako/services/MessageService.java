@@ -29,12 +29,14 @@ public interface MessageService {
 
     MessageInfoDto findById(long id) throws MessageNotFoundException;
 
-    void update(long id, MessageForUpdateDto messageDto);
+    void update(long id, MessageForUpdateDto messageDto) throws MessageNotFoundException, UserNotFoundException;
 
     List<MessageInfoDto> findLastDialogs(long userId, int start, int limit) throws UserNotFoundException;
 
     long countDialogs(long userId);
 
     List<MessageInfoDto> findAll();
+
+    long count();
 
 }

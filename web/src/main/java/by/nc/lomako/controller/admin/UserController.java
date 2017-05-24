@@ -89,6 +89,8 @@ public class UserController {
 
         long userId = Long.parseLong(userIdString);
 
+
+        System.out.println((userForUpdateDtoValidator.supports(userDto.getClass())));
         userForUpdateDtoValidator.validate(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(

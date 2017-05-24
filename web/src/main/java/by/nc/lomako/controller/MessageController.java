@@ -8,7 +8,7 @@ import by.nc.lomako.dto.message.MessageForSendDto;
 import by.nc.lomako.dto.message.MessageInfoDto;
 import by.nc.lomako.exceptions.MessageNotFoundException;
 import by.nc.lomako.exceptions.UserNotFoundException;
-import by.nc.lomako.security.UserDetailsImpl;
+import by.nc.lomako.security.details.UserDetailsImpl;
 import by.nc.lomako.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

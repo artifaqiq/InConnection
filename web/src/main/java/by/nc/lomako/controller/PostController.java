@@ -8,7 +8,7 @@ import by.nc.lomako.dto.post.PostForCreateDto;
 import by.nc.lomako.dto.post.PostInfoDto;
 import by.nc.lomako.exceptions.PostNotFoundException;
 import by.nc.lomako.exceptions.UserNotFoundException;
-import by.nc.lomako.security.UserDetailsImpl;
+import by.nc.lomako.security.details.UserDetailsImpl;
 import by.nc.lomako.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

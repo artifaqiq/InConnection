@@ -33,7 +33,7 @@ public final class UserForUpdateDto {
 
         @Override
         public boolean supports(Class<?> clazz) {
-            return UserForUpdateDto.class.equals(clazz);
+            return UserForUpdateDto.class.isAssignableFrom(clazz);
         }
 
         @Override

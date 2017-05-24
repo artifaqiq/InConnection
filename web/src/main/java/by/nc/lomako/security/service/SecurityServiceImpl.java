@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.security;
+package by.nc.lomako.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SecurityServiceImpl implements SecurityService {
+
     private final AuthenticationManager authenticationManager;
 
     private final UserDetailsService userDetailsService;

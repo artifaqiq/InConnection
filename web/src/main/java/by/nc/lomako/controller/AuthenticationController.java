@@ -5,8 +5,10 @@ package by.nc.lomako.controller;
 
 import by.nc.lomako.dto.OperationStatusDto;
 import by.nc.lomako.dto.user.UserForRegisterDto;
+import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.exceptions.UniqueEmailException;
-import by.nc.lomako.security.SecurityService;
+import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.security.service.SecurityService;
 import by.nc.lomako.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 @RequestMapping("api/v1/auth")
-public class RestAuthController {
+public class AuthenticationController {
+
     private final UserService userService;
 
     private final SecurityService securityService;
@@ -35,8 +38,8 @@ public class RestAuthController {
     private final UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
 
     @Autowired
-    public RestAuthController(UserService userService, SecurityService securityService,
-                              UserForRegisterDto.DtoValidator userForRegisterDtoValidator) {
+    public AuthenticationController(UserService userService, SecurityService securityService,
+                                    UserForRegisterDto.DtoValidator userForRegisterDtoValidator) {
         this.userService = userService;
         this.securityService = securityService;
         this.userForRegisterDtoValidator = userForRegisterDtoValidator;
@@ -46,7 +49,7 @@ public class RestAuthController {
     public ResponseEntity<?> register(
             @RequestBody UserForRegisterDto userDto,
             BindingResult bindingResult
-    ) {
+    ) throws UserNotFoundException {
 
         userForRegisterDtoValidator.validate(userDto, bindingResult);
 
@@ -63,9 +66,12 @@ public class RestAuthController {
 
         try {
             long id = userService.register(userDto);
+            UserInfoDto userInfoDto = userService.findById(id);
+
+            securityService.authenticate(userDto.getEmail(), userDto.getPassword());
 
             return new ResponseEntity<>(
-                    new OperationStatusDto(HttpStatus.OK, "success"),
+                    userInfoDto,
                     HttpStatus.OK
             );
 

@@ -113,10 +113,14 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<?> notBindExceptionHandler(Exception e) {
+
+        e.printStackTrace();
+
         return new ResponseEntity<>(
                 new OperationStatusDto(
                         HttpStatus.INTERNAL_SERVER_ERROR,
                         "DOSNT BINDED EXCEPTION " + e.getClass()
+                                + "; " + e
                 ),
                 HttpStatus.BAD_REQUEST
         );

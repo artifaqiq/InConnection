@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.security;
+package by.nc.lomako.security.details;
 
 import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.exceptions.UserNotFoundException;
@@ -47,8 +47,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private Set<GrantedAuthority> getAuthorities(UserInfoDto userInfoDto) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-
-        System.out.println(userInfoDto.getRoles());
 
         for (RoleType role : userInfoDto.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.toString());

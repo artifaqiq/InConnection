@@ -123,14 +123,22 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void update(long id, MessageForUpdateDto messageDto) {
+    public void update(long id, MessageForUpdateDto messageDto) throws MessageNotFoundException, UserNotFoundException {
         Message message = messageDao.findOne(id);
+
+        if (message == null) {
+            throw new MessageNotFoundException();
+        }
+
+        if (userDao.findOne(messageDto.getUserFromId()) == null || userDao.findOne(messageDto.getUserToId()) == null) {
+            throw new UserNotFoundException();
+        }
+
         message.setUserFrom(userDao.findOne(messageDto.getUserFromId()));
         message.setUserTo(userDao.findOne(messageDto.getUserToId()));
         message.setBody(messageDto.getBody());
         message.setRead(messageDto.isRead());
 
-//        messageDao.save(message);
     }
 
     @Override
@@ -177,5 +185,10 @@ public class MessageServiceImpl implements MessageService {
         }
 
         return messageDtos;
+    }
+
+    @Override
+    public long count() {
+        return messageDao.count();
     }
 }

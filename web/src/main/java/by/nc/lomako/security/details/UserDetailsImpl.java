@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.security;
+package by.nc.lomako.security.details;
 
 import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.pojos.RoleType;

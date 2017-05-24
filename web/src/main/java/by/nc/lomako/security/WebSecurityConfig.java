@@ -1,5 +1,8 @@
 package by.nc.lomako.security;
 
+import by.nc.lomako.security.handlers.AuthFailureHandler;
+import by.nc.lomako.security.handlers.AuthLogoutHandler;
+import by.nc.lomako.security.handlers.AuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,25 +24,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
+    private final AuthSuccessHandler authSuccessHandler;
+
+    private final AuthFailureHandler authFailureHandler;
+
+    private final AuthLogoutHandler authLogoutHandler;
+
+    public WebSecurityConfig(UserDetailsService userDetailsService, AuthSuccessHandler authSuccessHandler,
+                             AuthFailureHandler authFailureHandler, AuthLogoutHandler authLogoutHandler) {
         this.userDetailsService = userDetailsService;
+        this.authSuccessHandler = authSuccessHandler;
+        this.authFailureHandler = authFailureHandler;
+        this.authLogoutHandler = authLogoutHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/register", "/api/v1/auth/register").permitAll()
+                .antMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .httpBasic()
                 .and()
                     .formLogin()
-                    .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(authSuccessHandler)
+                .failureHandler(authFailureHandler)
                     .permitAll()
                 .and()
                     .logout()
+                .logoutSuccessHandler(authLogoutHandler)
                     .permitAll()
                 .and()
                     .csrf()

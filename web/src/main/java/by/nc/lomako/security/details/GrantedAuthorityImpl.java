@@ -1,9 +1,8 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.security;
+package by.nc.lomako.security.details;
 
-import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.pojos.RoleType;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
