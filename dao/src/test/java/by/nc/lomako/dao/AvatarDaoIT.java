@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @version 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/dao-context.test.xml")
+@ContextConfiguration("classpath:dao-context.test.xml")
 @Transactional
 public class AvatarDaoIT {
     @Autowired

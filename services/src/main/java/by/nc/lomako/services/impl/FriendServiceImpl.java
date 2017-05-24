@@ -5,11 +5,11 @@ package by.nc.lomako.services.impl;
 
 import by.nc.lomako.dao.FriendRequestDao;
 import by.nc.lomako.dao.UserDao;
-import by.nc.lomako.exceptions.DuplicateFriendRequest;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.FriendRequest;
 import by.nc.lomako.pojos.User;
 import by.nc.lomako.services.FriendService;
+import by.nc.lomako.services.exceptions.DuplicateFriendRequest;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

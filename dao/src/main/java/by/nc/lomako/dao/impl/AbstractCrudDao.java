@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-/**
+/*
  * @author Lomako
  * @version 1.0
  */

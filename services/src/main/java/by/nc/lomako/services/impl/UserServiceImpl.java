@@ -6,13 +6,13 @@ package by.nc.lomako.services.impl;
 import by.nc.lomako.dao.RoleDao;
 import by.nc.lomako.dao.UserDao;
 import by.nc.lomako.dto.user.*;
-import by.nc.lomako.exceptions.IncorrectLoginOrPasswordException;
-import by.nc.lomako.exceptions.UniqueEmailException;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.Role;
 import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.pojos.User;
 import by.nc.lomako.services.UserService;
+import by.nc.lomako.services.exceptions.IncorrectLoginOrPasswordException;
+import by.nc.lomako.services.exceptions.UniqueEmailException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import by.nc.lomako.utils.PasswordCryptographyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
 
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         Role role = roleDao.findByName(RoleType.USER);
         roles.add(role);
 

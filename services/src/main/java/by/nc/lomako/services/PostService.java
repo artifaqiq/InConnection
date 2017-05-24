@@ -6,8 +6,8 @@ package by.nc.lomako.services;
 import by.nc.lomako.dto.post.PostForCreateDto;
 import by.nc.lomako.dto.post.PostForUpdateDto;
 import by.nc.lomako.dto.post.PostInfoDto;
-import by.nc.lomako.exceptions.PostNotFoundException;
-import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.services.exceptions.PostNotFoundException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 
 import java.util.List;
 

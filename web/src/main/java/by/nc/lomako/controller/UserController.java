@@ -4,8 +4,8 @@
 package by.nc.lomako.controller;
 
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.services.UserService;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

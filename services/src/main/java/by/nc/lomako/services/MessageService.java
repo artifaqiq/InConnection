@@ -6,8 +6,8 @@ package by.nc.lomako.services;
 import by.nc.lomako.dto.message.MessageForSendDto;
 import by.nc.lomako.dto.message.MessageForUpdateDto;
 import by.nc.lomako.dto.message.MessageInfoDto;
-import by.nc.lomako.exceptions.MessageNotFoundException;
-import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.services.exceptions.MessageNotFoundException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 
 import java.util.List;
 

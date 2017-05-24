@@ -4,8 +4,8 @@
 package by.nc.lomako.services;
 
 
-import by.nc.lomako.exceptions.DuplicateFriendRequest;
-import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.services.exceptions.DuplicateFriendRequest;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 
 /**
  * @author Lomako

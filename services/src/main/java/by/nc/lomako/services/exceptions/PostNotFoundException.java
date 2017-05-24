@@ -1,9 +1,7 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.exceptions;
-
-import by.nc.lomako.exceptions.ServiceException;
+package by.nc.lomako.services.exceptions;
 
 /**
  * @author Lomako

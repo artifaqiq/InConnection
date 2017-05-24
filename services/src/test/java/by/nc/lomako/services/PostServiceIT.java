@@ -8,14 +8,15 @@ import by.nc.lomako.dto.post.PostForUpdateDto;
 import by.nc.lomako.dto.post.PostInfoDto;
 import by.nc.lomako.dto.user.UserForRegisterDto;
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.exceptions.PostNotFoundException;
-import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.services.exceptions.PostNotFoundException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import by.nc.lomako.services.utils.DaoTestsHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:dao-context.test.xml")
+@ActiveProfiles("test")
 @Transactional
 public class PostServiceIT {
 
@@ -215,13 +217,14 @@ public class PostServiceIT {
 
     @Test
     public void findAll() throws Exception {
+
         long firstUserId = userService.register(buildUser(FIRST_USER_EMAIL));
         long secondUserId = userService.register(buildUser(SECOND_USER_EMAIL));
         long firstPostId = postService.create(firstUserId, buildPostForCreateDto(FIRST_POST_BODY));
         Thread.sleep(1001);
         long secondPostId = postService.create(firstUserId, buildPostForCreateDto(SECOND_POST_BODY));
         Thread.sleep(1001);
-        long thirdPostId = postService.create(firstUserId, buildPostForCreateDto(THIRD_POST_BODY));
+        long thirdPostId = postService.create(secondUserId, buildPostForCreateDto(THIRD_POST_BODY));
 
         List<PostInfoDto> posts = postService.findAll();
         assertThat(

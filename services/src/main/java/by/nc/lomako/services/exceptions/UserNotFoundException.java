@@ -1,11 +1,12 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.exceptions;
+package by.nc.lomako.services.exceptions;
 
 /**
  * @author Lomako
  * @version 1.0
  */
-public class UniqueEmailException extends ServiceException {
+public class UserNotFoundException extends ServiceException {
+
 }

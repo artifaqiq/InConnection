@@ -4,10 +4,10 @@
 package by.nc.lomako.services;
 
 import by.nc.lomako.dto.user.*;
-import by.nc.lomako.exceptions.IncorrectLoginOrPasswordException;
-import by.nc.lomako.exceptions.UniqueEmailException;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.RoleType;
+import by.nc.lomako.services.exceptions.IncorrectLoginOrPasswordException;
+import by.nc.lomako.services.exceptions.UniqueEmailException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import by.nc.lomako.services.utils.DaoTestsHelper;
 import by.nc.lomako.utils.PasswordCryptographyUtil;
 import org.junit.After;
@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,8 @@ import static org.junit.Assert.assertThat;
  * @version 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:dao-context.test.xml"})
+@ContextConfiguration("classpath:dao-context.test.xml")
+@ActiveProfiles("test")
 @Transactional
 public class UserServiceIT {
 

@@ -8,14 +8,14 @@ import by.nc.lomako.dto.message.MessageForUpdateDto;
 import by.nc.lomako.dto.message.MessageInfoDto;
 import by.nc.lomako.dto.user.UserForRegisterDto;
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.exceptions.MessageNotFoundException;
+import by.nc.lomako.services.exceptions.MessageNotFoundException;
 import by.nc.lomako.services.utils.DaoTestsHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +34,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:dao-context.test.xml")
+@ActiveProfiles("test")
 @Transactional
 public class MessageServiceIT {
 

@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2017, Lomako. All rights reserved.
  */
-package by.nc.lomako.controller.exception;
+package by.nc.lomako.controller.exceptions;
 
 import by.nc.lomako.dto.OperationStatusDto;
-import by.nc.lomako.exceptions.MessageNotFoundException;
-import by.nc.lomako.exceptions.PostNotFoundException;
-import by.nc.lomako.exceptions.UniqueEmailException;
-import by.nc.lomako.exceptions.UserNotFoundException;
+import by.nc.lomako.services.exceptions.MessageNotFoundException;
+import by.nc.lomako.services.exceptions.PostNotFoundException;
+import by.nc.lomako.services.exceptions.UniqueEmailException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,14 +112,14 @@ public class ExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-    public ResponseEntity<?> notBindExceptionHandler(Exception e) {
+    public ResponseEntity<?> noBindExceptionHandler(Exception e) {
 
         e.printStackTrace();
 
         return new ResponseEntity<>(
                 new OperationStatusDto(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                        "DOSNT BINDED EXCEPTION " + e.getClass()
+                        HttpStatus.BAD_REQUEST,
+                        "Please, hit the artur's face " + e.getClass()
                                 + "; " + e
                 ),
                 HttpStatus.BAD_REQUEST

@@ -6,10 +6,10 @@ package by.nc.lomako.controller;
 import by.nc.lomako.dto.OperationStatusDto;
 import by.nc.lomako.dto.message.MessageForSendDto;
 import by.nc.lomako.dto.message.MessageInfoDto;
-import by.nc.lomako.exceptions.MessageNotFoundException;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.security.details.UserDetailsImpl;
 import by.nc.lomako.services.MessageService;
+import by.nc.lomako.services.exceptions.MessageNotFoundException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -181,7 +181,7 @@ public class MessageController {
 
         List<MessageInfoDto> lastDialogs = messageService.findLastDialogs(currentUserId, start, limit);
 
-        return new ResponseEntity<List<MessageInfoDto>>(
+        return new ResponseEntity<>(
                 lastDialogs,
                 HttpStatus.OK
         );

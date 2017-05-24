@@ -4,9 +4,9 @@
 package by.nc.lomako.security.details;
 
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.services.UserService;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

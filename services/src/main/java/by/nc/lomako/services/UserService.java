@@ -4,10 +4,10 @@
 package by.nc.lomako.services;
 
 import by.nc.lomako.dto.user.*;
-import by.nc.lomako.exceptions.IncorrectLoginOrPasswordException;
-import by.nc.lomako.exceptions.UniqueEmailException;
-import by.nc.lomako.exceptions.UserNotFoundException;
 import by.nc.lomako.pojos.RoleType;
+import by.nc.lomako.services.exceptions.IncorrectLoginOrPasswordException;
+import by.nc.lomako.services.exceptions.UniqueEmailException;
+import by.nc.lomako.services.exceptions.UserNotFoundException;
 
 import java.util.List;
 
