@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String API_V1_AUTH_LOGIN_PATH = "/login";
+    private static final String API_V1_AUTH_LOGIN_PATH = "/api/v1/auth/login";
     private static final String API_V1_AUTH_REGISTER_PATH = "/api/v1/auth/register";
     private static final String API_V1_AUTH_LOGOUT_PATH = "/api/v1/auth/logout";
     private static final String USERNAME_PARAMETER = "email";

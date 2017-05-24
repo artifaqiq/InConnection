@@ -4,6 +4,8 @@
 package by.nc.lomako.dao.impl;
 
 import by.nc.lomako.dao.CrudDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +20,9 @@ import java.util.List;
 public abstract class AbstractCrudDao<T extends Serializable, ID extends Serializable>
         implements CrudDao<T, ID> {
 
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @PersistenceContext
     protected EntityManager em;
 
@@ -29,6 +34,9 @@ public abstract class AbstractCrudDao<T extends Serializable, ID extends Seriali
 
     @Override
     public <S extends T> S save(S entity) {
+
+        logger.error("SAVE ERROR (I JOKE)");
+
         return em.merge(entity);
     }
 
