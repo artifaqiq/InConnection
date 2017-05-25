@@ -7,6 +7,6 @@ package by.nc.lomako.security.service;
  * @author Lomako
  * @version 1.0
  */
-public interface SecurityService {
+public interface AuthService {
     void authenticate(String email, String password);
 }

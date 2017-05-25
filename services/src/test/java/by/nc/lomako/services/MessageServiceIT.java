@@ -44,7 +44,6 @@ public class MessageServiceIT {
 
     private static final String FIRST_USER_EMAIL = "T_FIRST_USER_EMAIL";
     private static final String SECOND_USER_EMAIL = "T_SECOND_USER_EMAIL";
-    private static final String THIRD_USER_EMAIL = "T_THIRD_USER_EMAIL";
 
     private static final String USER_FIRST_NAME = "T_USER_FIRST_NAME";
     private static final String USER_LAST_NAME = "T_USER_LAST_NAME";

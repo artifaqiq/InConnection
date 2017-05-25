@@ -6,7 +6,7 @@ package by.nc.lomako.controller;
 import by.nc.lomako.dto.OperationStatusDto;
 import by.nc.lomako.dto.user.UserForRegisterDto;
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.security.service.SecurityService;
+import by.nc.lomako.security.service.AuthService;
 import by.nc.lomako.services.UserService;
 import by.nc.lomako.services.exceptions.UniqueEmailException;
 import by.nc.lomako.services.exceptions.UserNotFoundException;
@@ -33,15 +33,15 @@ public class AuthenticationController {
 
     private final UserService userService;
 
-    private final SecurityService securityService;
+    private final AuthService authService;
 
     private final UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
 
     @Autowired
-    public AuthenticationController(UserService userService, SecurityService securityService,
+    public AuthenticationController(UserService userService, AuthService authService,
                                     UserForRegisterDto.DtoValidator userForRegisterDtoValidator) {
         this.userService = userService;
-        this.securityService = securityService;
+        this.authService = authService;
         this.userForRegisterDtoValidator = userForRegisterDtoValidator;
     }
 
@@ -68,7 +68,7 @@ public class AuthenticationController {
             long id = userService.register(userDto);
             UserInfoDto userInfoDto = userService.findById(id);
 
-            securityService.authenticate(userDto.getEmail(), userDto.getPassword());
+            authService.authenticate(userDto.getEmail(), userDto.getPassword());
 
             return new ResponseEntity<>(
                     userInfoDto,

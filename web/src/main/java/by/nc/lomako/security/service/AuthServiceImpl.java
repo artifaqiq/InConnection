@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class SecurityServiceImpl implements SecurityService {
+public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
 
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
     }
