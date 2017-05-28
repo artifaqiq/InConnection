@@ -4,13 +4,16 @@
 package by.nc.lomako.controller;
 
 import by.nc.lomako.dto.OperationStatusDto;
+import by.nc.lomako.dto.user.UserForLoginDto;
 import by.nc.lomako.dto.user.UserForRegisterDto;
 import by.nc.lomako.dto.user.UserInfoDto;
 import by.nc.lomako.security.service.AuthService;
 import by.nc.lomako.services.UserService;
+import by.nc.lomako.services.exceptions.IncorrectLoginOrPasswordException;
 import by.nc.lomako.services.exceptions.UniqueEmailException;
 import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -83,6 +86,36 @@ public class AuthenticationController {
             );
         }
 
+    }
 
+    @RequestMapping(value = "/login", method = POST)
+    public ResponseEntity<?> login(
+            @RequestBody UserForLoginDto userForLoginDto
+    ) {
+        try {
+            long id = userService.login(userForLoginDto);
+            authService.authenticate(userForLoginDto.getEmail(), userForLoginDto.getPassword());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.LOCATION, "/api/v1/users/" + id);
+
+            return new ResponseEntity<>(
+                    new OperationStatusDto(
+                            HttpStatus.OK,
+                            "success"
+                    ),
+                    headers,
+                    HttpStatus.OK
+            );
+
+        } catch (IncorrectLoginOrPasswordException e) {
+            return new ResponseEntity<Object>(
+                    new OperationStatusDto(
+                            HttpStatus.UNAUTHORIZED,
+                            "Incorrect login or password"
+                    ),
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
     }
 }

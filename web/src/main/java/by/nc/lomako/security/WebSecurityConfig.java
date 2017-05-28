@@ -10,9 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -22,19 +21,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String API_V1_AUTH_LOGIN_PATH = "/api/v1/auth/login";
     private static final String API_V1_AUTH_REGISTER_PATH = "/api/v1/auth/register";
     private static final String API_V1_AUTH_LOGOUT_PATH = "/api/v1/auth/logout";
-    private static final String USERNAME_PARAMETER = "email";
-    private static final String PASSWORD_PARAMETER = "password";
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     private final UserDetailsService userDetailsService;
-
-    private final AuthenticationSuccessHandler authSuccessHandler;
-
-    private final AuthenticationFailureHandler authFailureHandler;
 
     private final LogoutSuccessHandler authLogoutHandler;
 
@@ -42,13 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public WebSecurityConfig(
-            UserDetailsService userDetailsService, AuthenticationSuccessHandler authSuccessHandler,
-            AuthenticationFailureHandler authFailureHandler, LogoutSuccessHandler authLogoutHandler,
+            UserDetailsService userDetailsService,
+            LogoutSuccessHandler authLogoutHandler,
             AuthenticationEntryPoint authenticationEntryPoint
     ) {
         this.userDetailsService = userDetailsService;
-        this.authSuccessHandler = authSuccessHandler;
-        this.authFailureHandler = authFailureHandler;
         this.authLogoutHandler = authLogoutHandler;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
@@ -64,18 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(API_V1_AUTH_REGISTER_PATH, API_V1_AUTH_LOGIN_PATH)
                 .permitAll()
                 .and()
-                    .formLogin()
-                .loginProcessingUrl(API_V1_AUTH_LOGIN_PATH)
-                .usernameParameter(USERNAME_PARAMETER)
-                .passwordParameter(PASSWORD_PARAMETER)
-                .failureHandler(authFailureHandler)
-                .successHandler(authSuccessHandler)
-                    .permitAll()
-                .and()
-                    .logout()
+                .logout()
                 .logoutUrl(API_V1_AUTH_LOGOUT_PATH)
                 .logoutSuccessHandler(authLogoutHandler)
-                    .permitAll()
+                .permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()

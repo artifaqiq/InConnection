@@ -33,7 +33,6 @@ public class SecurityLoggingAspect {
                         .map(Object::toString)
                         .collect(Collectors.joining(", "));
         log.debug(message);
-
     }
 
 }
