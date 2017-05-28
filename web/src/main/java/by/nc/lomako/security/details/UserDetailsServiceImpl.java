@@ -4,20 +4,14 @@
 package by.nc.lomako.security.details;
 
 import by.nc.lomako.dto.user.UserInfoDto;
-import by.nc.lomako.pojos.RoleType;
 import by.nc.lomako.services.UserService;
 import by.nc.lomako.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Lomako
@@ -43,15 +37,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } catch (UserNotFoundException e) {
             throw new UsernameNotFoundException("User with some email not found");
         }
-    }
-
-    private Set<GrantedAuthority> getAuthorities(UserInfoDto userInfoDto) {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-
-        for (RoleType role : userInfoDto.getRoles()) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.toString());
-            authorities.add(grantedAuthority);
-        }
-        return authorities;
     }
 }

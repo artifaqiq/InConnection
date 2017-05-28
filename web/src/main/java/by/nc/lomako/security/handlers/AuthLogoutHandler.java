@@ -22,6 +22,5 @@ public class AuthLogoutHandler implements LogoutSuccessHandler {
             throws IOException {
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().flush();
     }
 }

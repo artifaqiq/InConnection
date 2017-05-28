@@ -66,6 +66,12 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.core.version}</version>
         </dependency>
+        <!-- Hibernate c3p0 connection pool -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>3.6.3.Final</version>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -89,13 +95,6 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <!-- Utils -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>${dbcp2.version}</version>
         </dependency>
 
         <!-- AOP -->

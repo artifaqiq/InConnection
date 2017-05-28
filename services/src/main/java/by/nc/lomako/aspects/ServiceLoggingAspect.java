@@ -36,16 +36,16 @@ public class ServiceLoggingAspect {
         Arrays.stream(joinPoint.getArgs()).forEach(stringBuilder::append);
         stringBuilder.append(")");
 
-        log.info(joinPoint.getSignature().toShortString() + stringBuilder.toString());
+        log.debug(joinPoint.getSignature().toShortString() + stringBuilder.toString());
     }
 
     @AfterThrowing(
             pointcut = "serviceMethods()",
             throwing = "ex"
     )
-    public void logDaoExceptions(JoinPoint joinPoint, Throwable ex) {
+    public void logServiceExceptions(JoinPoint joinPoint, Throwable ex) {
         Logger log = LoggerFactory.getLogger(joinPoint.getTarget().getClass().getName());
-        log.info("Service exception: " + ex.getClass().getName());
+        log.debug("Service exception: " + ex.getClass().getName());
     }
 
 }

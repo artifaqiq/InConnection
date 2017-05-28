@@ -39,7 +39,7 @@ public class DaoLoggingAspects {
         Arrays.stream(joinPoint.getArgs()).forEach(stringBuilder::append);
         stringBuilder.append(")");
 
-        log.info(joinPoint.getSignature().toShortString() + stringBuilder.toString());
+        log.debug(joinPoint.getSignature().toShortString() + stringBuilder.toString());
 
         return joinPoint.proceed();
     }

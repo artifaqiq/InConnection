@@ -102,7 +102,7 @@ public class ExceptionHandler {
         );
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(InvalidDataAccessApiUsageException.class)
-    public ResponseEntity<?> StartAndLimitValuesForPaginationFormatHandler(InvalidDataAccessApiUsageException e) {
+    public ResponseEntity<?> startAndLimitValuesForPaginationFormatHandler(InvalidDataAccessApiUsageException e) {
         return new ResponseEntity<>(
                 new OperationStatusDto(
                         HttpStatus.BAD_REQUEST,
@@ -125,8 +125,6 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<?> noBindExceptionHandler(Exception e) {
-
-        e.printStackTrace();
 
         return new ResponseEntity<>(
                 new OperationStatusDto(

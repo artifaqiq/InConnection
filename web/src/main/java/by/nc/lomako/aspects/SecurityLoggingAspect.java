@@ -32,7 +32,7 @@ public class SecurityLoggingAspect {
                         .filter(Objects::nonNull)
                         .map(Object::toString)
                         .collect(Collectors.joining(", "));
-        log.warn(message);
+        log.debug(message);
 
     }
 

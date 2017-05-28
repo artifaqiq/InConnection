@@ -33,7 +33,7 @@ public class ControllerLoggingAspect {
                         .collect(Collectors.joining(", ")) +
                 " Response: " + result.toString();
 
-        log.info(message);
+        log.debug(message);
 
         return result;
     }
@@ -51,7 +51,7 @@ public class ControllerLoggingAspect {
                         .collect(Collectors.joining(", ")) +
                 " Response: " + result.toString();
 
-        log.warn(message);
+        log.info(message);
 
         return result;
     }
