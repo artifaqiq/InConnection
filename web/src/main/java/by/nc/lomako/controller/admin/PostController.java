@@ -47,7 +47,7 @@ public class PostController {
         this.postForUpdateDtoValidator = postForUpdateDtoValidator;
     }
 
-    @RequestMapping(value = "/user/{userId}/create", method = POST)
+    @RequestMapping(value = "/users/{userId}", method = POST)
     public ResponseEntity<?> createPost(
             @PathVariable("userId") String userIdString,
             @RequestBody PostForCreateDto postForCreateDto,
@@ -145,7 +145,7 @@ public class PostController {
         );
     }
 
-    @RequestMapping(value = "/index", method = GET)
+    @RequestMapping(value = "/", method = GET)
     public ResponseEntity<?> showAll() {
         List<PostInfoDto> posts = postService.findAll();
 

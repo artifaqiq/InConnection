@@ -48,7 +48,7 @@ public class MessageController {
         this.messageForUpdateDtoValidator = messageForUpdateDtoValidator;
     }
 
-    @RequestMapping("/user/{userId}/create")
+    @RequestMapping("/users/{userId}/")
     public ResponseEntity<?> createMessage(
             @PathVariable("userId") String userIdString,
             @RequestBody MessageForSendDto messageDto,
@@ -148,7 +148,7 @@ public class MessageController {
         );
     }
 
-    @RequestMapping(value = "/index", method = GET)
+    @RequestMapping(value = "/", method = GET)
     public ResponseEntity<?> findAll() {
         List<MessageInfoDto> messages = messageService.findAll();
 

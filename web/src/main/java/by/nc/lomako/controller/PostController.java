@@ -43,7 +43,7 @@ public class PostController {
         this.postForCreateDtoValidator = postForCreateDtoValidator;
     }
 
-    @RequestMapping(value = "/create", method = POST)
+    @RequestMapping(value = "/", method = POST)
     public ResponseEntity<?> createPost(
             @RequestBody PostForCreateDto postDto,
             BindingResult bindingResult
@@ -121,7 +121,7 @@ public class PostController {
         );
     }
 
-    @RequestMapping(value = "user/{userId}/last/index", method = GET)
+    @RequestMapping(value = "users/{userId}/last/", method = GET)
     public ResponseEntity<List<PostInfoDto>> getLastPostsByUser(
             @PathVariable("userId") String userIdString,
             @RequestParam("start") String startString,
@@ -136,7 +136,7 @@ public class PostController {
                 postService.findLastByUser(userId, start, limit), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "user/{userId}/last/count", method = GET)
+    @RequestMapping(value = "users/{userId}/last/count", method = GET)
     public ResponseEntity<?> getCountLastPostsByUser(
             @PathVariable("userId") String userIdString
     ) throws UserNotFoundException {

@@ -59,7 +59,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/index", method = GET)
+    @RequestMapping(value = "/", method = GET)
     public ResponseEntity<List<UserInfoDto>> findAll(
             @RequestParam("start") String startString,
             @RequestParam("limit") String limitString

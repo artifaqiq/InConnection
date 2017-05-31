@@ -46,7 +46,7 @@ public class UserController {
         this.userForUpdateDtoValidator = userForUpdateDtoValidator;
     }
 
-    @RequestMapping(value = "/create", method = POST)
+    @RequestMapping(value = "/", method = POST)
     public ResponseEntity<OperationStatusDto> createUser(
             @RequestBody UserForCreateDto userDto,
             BindingResult bindingResult
@@ -89,8 +89,6 @@ public class UserController {
 
         long userId = Long.parseLong(userIdString);
 
-
-        System.out.println((userForUpdateDtoValidator.supports(userDto.getClass())));
         userForUpdateDtoValidator.validate(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(
@@ -118,7 +116,7 @@ public class UserController {
         );
     }
 
-    @RequestMapping(value = "/{userId}/roles/update", method = PUT)
+    @RequestMapping(value = "/{userId}/roles/ ", method = PUT)
     public ResponseEntity updateUserRoles(
             @PathVariable("userId") String userIdString,
             @RequestBody RoleTypesSetDto roles

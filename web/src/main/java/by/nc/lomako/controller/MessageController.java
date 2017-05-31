@@ -78,13 +78,13 @@ public class MessageController {
         headers.add(LOCATION, "/api/v1/messages/" + messageId);
 
         return new ResponseEntity<>(
-                new OperationStatusDto(HttpStatus.OK, "success"),
+                new OperationStatusDto(HttpStatus.CREATED, "success"),
                 headers,
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
-    @RequestMapping(value = "/delete/{messageId}", method = DELETE)
+    @RequestMapping(value = "/{messageId}", method = DELETE)
     public ResponseEntity<?> deleteMessage(
             @PathVariable("messageId") String messageIdString,
             Principal principal
@@ -113,7 +113,7 @@ public class MessageController {
         );
     }
 
-    @RequestMapping(value = "/last/{userId}", method = GET)
+    @RequestMapping(value = "users/{userId}/last", method = GET)
     public ResponseEntity<List<MessageInfoDto>> getLastMessagesBetweenUsers(
             @PathVariable("userId") String userIdString,
             @RequestParam("start") String startString,
@@ -166,7 +166,7 @@ public class MessageController {
         );
     }
 
-    @RequestMapping(value = "/last_dialogs/index", method = GET)
+    @RequestMapping(value = "/last_dialogs", method = GET)
     public ResponseEntity<List<MessageInfoDto>> getLastDialogs(
             @RequestParam("start") String startString,
             @RequestParam("limit") String limitString,
