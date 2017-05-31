@@ -9,7 +9,6 @@ import by.nc.lomako.services.exceptions.IncorrectLoginOrPasswordException;
 import by.nc.lomako.services.exceptions.UniqueEmailException;
 import by.nc.lomako.services.exceptions.UserNotFoundException;
 import by.nc.lomako.services.utils.DaoTestsHelper;
-import by.nc.lomako.utils.PasswordCryptographyUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -90,10 +88,6 @@ public class UserServiceIT {
         assertThat(
                 FIRST_USER_EMAIL,
                 equalTo(findUserDto.getEmail())
-        );
-        assertThat(
-                PasswordCryptographyUtil.checkPassword(FIRST_USER_PASSWORD, findUserDto.getEncryptedPassword()),
-                is(true)
         );
 
     }

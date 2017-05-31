@@ -8,6 +8,8 @@
     <groupId>by.nc.lomako.social</groupId>
     <artifactId>entities</artifactId>
 
+    <packaging>jar</packaging>
+
     <parent>
         <groupId>by.nc.lomako</groupId>
         <artifactId>social</artifactId>
@@ -35,5 +37,9 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>entities</finalName>
+    </build>
 
 </project>

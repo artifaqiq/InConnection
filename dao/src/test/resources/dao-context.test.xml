@@ -13,7 +13,6 @@
 >
 
     <context:component-scan base-package="by.nc.lomako"/>
-    <!--<aop:aspectj-autoproxy/>-->
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:url="jdbc:mysql://localhost:3306/in_connection_test"
@@ -31,19 +30,14 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="debug">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="debug">false</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
                 <prop key="hibernate.enable_lazy_loaed_no_trans">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
-                <!--<prop key="hibernate.cache.region.factory_class">-->
-                <!--org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory-->
-                <!--</prop>-->
-                <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
-                <!--<prop key="cache.use_query_cache">true</prop>-->
 
             </props>
         </property>

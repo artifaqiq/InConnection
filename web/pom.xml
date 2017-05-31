@@ -8,6 +8,12 @@
     <groupId>by.nc.lomako.social</groupId>
     <artifactId>web</artifactId>
 
+    <packaging>jar</packaging>
+
+    <properties>
+        <start-class>by.nc.lomako.Application</start-class>
+    </properties>
+
     <parent>
         <groupId>by.nc.lomako</groupId>
         <artifactId>social</artifactId>
@@ -53,5 +59,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>web</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

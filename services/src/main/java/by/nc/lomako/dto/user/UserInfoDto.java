@@ -4,6 +4,7 @@
 package by.nc.lomako.dto.user;
 
 import by.nc.lomako.pojos.RoleType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Set;
 public final class UserInfoDto {
     private long id;
     private String email;
+    @JsonIgnore
     private String encryptedPassword;
     private String firstName;
     private String lastName;
