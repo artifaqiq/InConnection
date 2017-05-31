@@ -8,7 +8,6 @@ import by.nc.lomako.services.exceptions.MessageNotFoundException;
 import by.nc.lomako.services.exceptions.PostNotFoundException;
 import by.nc.lomako.services.exceptions.UniqueEmailException;
 import by.nc.lomako.services.exceptions.UserNotFoundException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -99,16 +98,6 @@ public class ExceptionHandler {
                         "Incorrect request body format"
                 ),
                 HttpStatus.UNPROCESSABLE_ENTITY
-        );
-    }
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidDataAccessApiUsageException.class)
-    public ResponseEntity<?> startAndLimitValuesForPaginationFormatHandler(InvalidDataAccessApiUsageException e) {
-        return new ResponseEntity<>(
-                new OperationStatusDto(
-                        HttpStatus.BAD_REQUEST,
-                        "'start' and 'limit' parameters must be greater or equals 0"
-                ),
-                HttpStatus.BAD_REQUEST
         );
     }
 

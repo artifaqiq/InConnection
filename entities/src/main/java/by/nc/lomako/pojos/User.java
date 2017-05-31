@@ -25,19 +25,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @EqualsAndHashCode(exclude = {
         "roles",
-        "friends",
         "sentMessages",
         "recvMessages",
         "posts",
-        "avatars"
 })
 @ToString(exclude = {
         "roles",
-        "friends",
         "sentMessages",
         "recvMessages",
         "posts",
-        "avatars"
 })
 @Entity
 @Table(name = "T_USERS")
@@ -113,9 +109,6 @@ public final class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = REMOVE)
     private Set<Post> posts;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Avatar> avatars;
 
     @PrePersist
     public void prePersist() {

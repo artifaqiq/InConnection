@@ -41,8 +41,10 @@ public class AuthenticationController {
     private final UserForRegisterDto.DtoValidator userForRegisterDtoValidator;
 
     @Autowired
-    public AuthenticationController(UserService userService, AuthService authService,
-                                    UserForRegisterDto.DtoValidator userForRegisterDtoValidator) {
+    public AuthenticationController(UserService userService,
+                                    AuthService authService,
+                                    UserForRegisterDto.DtoValidator userForRegisterDtoValidator
+    ) {
         this.userService = userService;
         this.authService = authService;
         this.userForRegisterDtoValidator = userForRegisterDtoValidator;
