@@ -61,7 +61,7 @@
     </dependencies>
 
     <build>
-        <finalName>web</finalName>
+        <finalName>server</finalName>
 
         <plugins>
             <plugin>
