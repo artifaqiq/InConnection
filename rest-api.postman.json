@@ -1,0 +1,572 @@
+{
+  "variables": [],
+  "info": {
+    "name": "InConnection",
+    "_postman_id": "d2258861-f468-d56d-858a-a30e6fdb0ef1",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "/admin/messages",
+      "description": "",
+      "item": [
+        {
+          "name": "Create message",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/user/5/create",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"userToId\": 7,\n\t\"body\": \"T12\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get one message by id",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/35",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Update message",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/5/update",
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"userFromId\": 6,\n\t\"userToId\": 7,\n\t\"body\": \"T12\",\n\t\"isRead\": true\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Delete message by id",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/8",
+            "method": "DELETE",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get all messages",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/index",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic dGVzdF91c2VyQGV4YW1wbGUuY29tOjEyMzQ1Njc4",
+                "description": "",
+                "disabled": true
+              }
+            ],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get count all messages",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/messages/count",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/admin/posts",
+      "description": "",
+      "item": [
+        {
+          "name": "Get one post by id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "test_user@example.com",
+                "password": "12345678",
+                "saveHelperData": true,
+                "showPassword": false
+              }
+            },
+            "url": "localhost:8080/api/v1/admin/posts/8",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get all posts",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "test_user@example.com",
+                "password": "12345678",
+                "saveHelperData": true,
+                "showPassword": false
+              }
+            },
+            "url": "localhost:8080/api/v1/admin/posts/index",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Create post",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/posts/user/5/create",
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"body\": \"T\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Update post",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/posts/7/update",
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"userId\": 5,\n\t\"body\": \"T_NEW_BODY\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Delete post",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/posts/11",
+            "method": "DELETE",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get count all posts",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "test_user@example.com",
+                "password": "12345678",
+                "saveHelperData": true,
+                "showPassword": false
+              }
+            },
+            "url": "localhost:8080/api/v1/admin/posts/count",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/admin/users",
+      "description": "",
+      "item": [
+        {
+          "name": "Get users by role",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/users/search?role=MODERATOR&start=0&limit=20",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Update user roles",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/users/5/roles/update",
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"roleTypes\": \n\t[\n\t\t\"ADMIN\",\n\t\t\"USER\"\n\t]\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Create user",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/users/create",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"email\": \"test_user99@example.com\",\n\t\"password\": \"12345678\",\n\t\"passwordConfirmation\": \"12345678\",\n\t\"firstName\": \"T_REST\",\n\t\"lastName\": \"T_REST\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "url": "localhost:8080/api/v1/admin/users/10/update",
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/auth",
+      "description": "",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "url": "localhost:8080/api/v1/auth/register",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"email\": \"test_user7@example.com\",\n\t\"password\": \"12345678\",\n\t\"firstName\": \"T_REST\",\n\t\"lastName\": \"T_REST\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "url": "localhost:8080/api/v1/auth/login",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "description": ""
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "test_user@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "12345678",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "url": "localhost:8080/api/v1/auth/logout",
+            "method": "POST",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/messages",
+      "description": "",
+      "item": [
+        {
+          "name": "Send message",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/send",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"userToId\": 7,\n\t\"body\": \"фывфа\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Delete message by id",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/delete/1asd",
+            "method": "DELETE",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get last messages with other user",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/last/7?start=0&limit=50",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get one message by id",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/7",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get last dialogs",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/last_dialogs/index?start=0&limit=20",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get count dialogs",
+          "request": {
+            "url": "localhost:8080/api/v1/messages/last_dialogs/count",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/posts",
+      "description": "",
+      "item": [
+        {
+          "name": "Create post",
+          "request": {
+            "url": "localhost:8080/api/v1/posts/create",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": ""
+              },
+              {
+                "key": "Authorization",
+                "value": "Basic dGVzdF91c2VyQGV4YW1wbGUuY29tOjEyMzQ1Njc4",
+                "description": "",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"body\": \"T\"\n}"
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get last posts by user",
+          "request": {
+            "url": "localhost:8080/api/v1/posts/user/5/last/index?start=0&limit=50",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get count last posts by user",
+          "request": {
+            "url": "localhost:8080/api/v1/posts/user/5/last/count",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic dGVzdF91c2VyQGV4YW1wbGUuY29tOjEyMzQ1Njc4",
+                "description": ""
+              }
+            ],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Delete post",
+          "request": {
+            "url": "localhost:8080/api/v1/posts/2",
+            "method": "DELETE",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get one post by id",
+          "request": {
+            "url": "localhost:8080/api/v1/posts/1",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "/users",
+      "description": "",
+      "item": [
+        {
+          "name": "Get user by id",
+          "request": {
+            "url": "localhost:8080/api/v1/users/10",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Search user by email",
+          "request": {
+            "url": "localhost:8080/api/v1/users/search?email=test_user@example.com",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get all users",
+          "request": {
+            "url": "localhost:8080/api/v1/users/index?start=0&limit=5",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Check email to free",
+          "request": {
+            "url": "localhost:8080/api/v1/users/is_email_free?email=12312",
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "Get count all users",
+          "request": {
+            "url": "localhost:8080/api/v1/users/count",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic dGVzdF91c2VyQGV4YW1wbGUuY29tOjEyMzQ1Njc4",
+                "description": "",
+                "disabled": true
+              }
+            ],
+            "body": {},
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
